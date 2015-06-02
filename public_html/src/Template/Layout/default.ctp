@@ -162,13 +162,13 @@ use Cake\Utility\Inflector;
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
+                      <a href="#">Projects</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
+                      <a href="#">Messages</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
+                      <a href="#">Tickets</a>
                     </div>
                   </li>
                   <!-- Menu Footer-->
