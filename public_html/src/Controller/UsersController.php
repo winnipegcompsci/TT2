@@ -16,6 +16,13 @@ class UsersController extends AppController
      *
      * @return void
      */
+     
+    public function beforeFilter($event) 
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['logout']);
+    }    
+     
     public function index()
     {
         $this->paginate = [
@@ -25,6 +32,26 @@ class UsersController extends AppController
         $this->set('_serialize', ['users']);
     }
 
+    public function login() 
+    {
+            $this->layout = "login";
+        if($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                $this->Flash->success("Logged in.");
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error('Invalid username or password, try again');
+        }
+    }
+    
+    public function logout() 
+    {
+        return $this->redirect($this->Auth->logout());
+    }
+    
+    
     /**
      * View method
      *
@@ -55,6 +82,7 @@ class UsersController extends AppController
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
+                debug($user);
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }

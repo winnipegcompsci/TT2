@@ -38,5 +38,20 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'loginRedirect' => [
+                'controller' => 'Pages', 
+                'action' => 'enigma_dashboard',
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login',
+            ]
+        ]);
+    }
+    
+    public function beforeFilter($event)
+    {
+        $this->Auth->allow(['index','view','display']);
     }
 }

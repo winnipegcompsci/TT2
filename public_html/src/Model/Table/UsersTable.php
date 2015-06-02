@@ -81,9 +81,9 @@ class UsersTable extends Table
             ->requirePresence('password', 'create')
             ->notEmpty('password');
             
-        $validator
-            ->requirePresence('secretkey', 'create')
-            ->notEmpty('secretkey');
+        // $validator
+            // ->requirePresence('secretkey', 'create')
+            // ->notEmpty('secretkey');
             
         $validator
             ->requirePresence('first_name', 'create')
@@ -98,39 +98,41 @@ class UsersTable extends Table
             ->requirePresence('email', 'create')
             ->notEmpty('email');
             
+            /*
         $validator
             ->requirePresence('disabled', 'create')
             ->notEmpty('disabled');
+            */
             
-        $validator
-            ->add('user_created', 'valid', ['rule' => 'datetime'])
-            ->requirePresence('user_created', 'create')
-            ->notEmpty('user_created');
+        // $validator
+            // ->add('user_created', 'valid', ['rule' => 'datetime'])
+            // ->requirePresence('user_created', 'create')
+            // ->notEmpty('user_created');
             
-        $validator
-            ->requirePresence('session', 'create')
-            ->notEmpty('session');
+        // $validator
+            // ->requirePresence('session', 'create')
+            // ->notEmpty('session');
             
-        $validator
-            ->requirePresence('cookie', 'create')
-            ->notEmpty('cookie');
+        // $validator
+            // ->requirePresence('cookie', 'create')
+            // ->notEmpty('cookie');
             
-        $validator
-            ->requirePresence('ip', 'create')
-            ->notEmpty('ip');
+        // $validator
+            // ->requirePresence('ip', 'create')
+            // ->notEmpty('ip');
             
-        $validator
-            ->add('last_login', 'valid', ['rule' => 'datetime'])
-            ->requirePresence('last_login', 'create')
-            ->notEmpty('last_login');
+        // $validator
+            // ->add('last_login', 'valid', ['rule' => 'datetime'])
+            // ->requirePresence('last_login', 'create')
+            // ->notEmpty('last_login');
             
         $validator
             ->requirePresence('company_name', 'create')
             ->notEmpty('company_name');
             
-        $validator
-            ->add('is_online', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('is_online');
+        // $validator
+            // ->add('is_online', 'valid', ['rule' => 'numeric'])
+            // ->allowEmpty('is_online');
             
         $validator
             ->allowEmpty('picture');

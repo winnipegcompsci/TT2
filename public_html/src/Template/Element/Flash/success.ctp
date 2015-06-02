@@ -1,1 +1,1 @@
-<div class="message alert alert-success alert-dismissable"><?= h($message) ?></div>
+<div class="message alert alert-success alert-dismissable"><i class="icon fa fa-check"></i><?= h($message) ?></div>

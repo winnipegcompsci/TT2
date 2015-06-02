@@ -17,7 +17,7 @@ class TicketsController extends AppController
      * @return void
      */
     public function index()
-    {
+    {        
         $this->paginate = [
             'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'Projects', 'BillingStatuses', 'Quotes']
         ];

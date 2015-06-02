@@ -5,7 +5,7 @@ use Cake\Utility\Inflector;
 <html>
   <head>
     <meta charset="UTF-8">
-    <title> TTv2.0 || $this->fetch('title') </title>
+    <title> TTv2.0 || <?= ucwords($this->request->params['action'] != 'display' ? $this->request->params['action'] : Inflector::humanize($this->request->pass[0]))  ?> </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Font Awesome Icons -->
@@ -172,10 +172,10 @@ use Cake\Utility\Inflector;
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profile']); ?>" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']); ?>" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -361,7 +361,7 @@ use Cake\Utility\Inflector;
         <section class="content-header">
           <h1>
             <?= $this->name ?>
-            <small>it all starts here</small>
+            <small>for enigma networks</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -565,10 +565,14 @@ use Cake\Utility\Inflector;
     
     <!-- Theme JS -->
     <?= $this->Html->script('app.min.js'); ?>
+    
+    <!-- Demo JS --> 
+    <?= $this->Html->script('demo.js'); ?>
    
     <?= $this->Html->script('bootstrap.min.js'); ?>
     
-   
+    <?= $this->Html->script('pages/dashboard2.js'); ?>
+    
     <?= $this->fetch('script') ?>
   </body>
 </html>
