@@ -42,7 +42,7 @@ class UsersController extends AppController
                 $this->Flash->success("Logged in.");
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error('Invalid username or password, try again');
+            echo $this->Flash->error('Invalid username or password, try again');
         }
     }
     

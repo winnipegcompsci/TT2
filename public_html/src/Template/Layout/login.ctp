@@ -42,6 +42,7 @@ use Cake\Utility\Inflector;
   <body class="skin-blue sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
+        <?= $this->Flash->render(); ?>
         <?= $this->fetch('content') ?>
     </div>
     

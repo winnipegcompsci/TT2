@@ -146,15 +146,16 @@ use Cake\Utility\Inflector;
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="<?= WWW_ROOT.'img/users/avatar5.png' ?>" class="user-image" alt="User Image"/>
-                  <span class="hidden-xs">David Richardson</span>
+                  <span class="hidden-xs"><?= $logged_in->getFullName() ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="<?= WWW_ROOT.'img/users/avatar5.png' ?>" class="img-circle" alt="User Image" />
                     <p>
-                      David Richardson - Web Developer
-                      <small>Member since Nov. 2012</small>
+                        
+                      <?= $logged_in->getFullName() ?> - <?= $logged_in->getUserRole()->name ?>
+                      <small>Member since <?= date("D, M j, Y", strtotime($logged_in->user_created)); ?></small>
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -201,7 +202,7 @@ use Cake\Utility\Inflector;
               <img src="<?= WWW_ROOT.'img/users/avatar5.png' ?>" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-              <p>David Richardson</p>
+              <p><?= $logged_in->getFullName() ?></p>
 
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -356,8 +357,8 @@ use Cake\Utility\Inflector;
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <?= $this->Flash->render() ?>
         <!-- Content Header (Page header) -->
+        <?= $this->Flash->render() ?>
         <section class="content-header">
           <h1>
             <?= $this->name ?>

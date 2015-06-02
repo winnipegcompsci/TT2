@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\ORM\TableRegistry;
 
 /**
  * Application Controller
@@ -48,8 +49,12 @@ class AppController extends Controller
                 'action' => 'login',
             ]
         ]);
+        
+        $this->set('logged_in', TableRegistry::get('Users')->findById($this->Auth->user('id'))->first());
+        // $user_full_name = $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
+        // $this->set('user_full_name', $user_full_name);
     }
-    
+        
     public function beforeFilter($event)
     {
         $this->Auth->allow(['index','view','display']);
