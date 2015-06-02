@@ -55,6 +55,7 @@ class ProjectsController extends AppController
                 $this->Flash->success(__('The project has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
+                echo "<pre>" . print_r($this->Projects, TRUE) . "</pre>";
                 $this->Flash->error(__('The project could not be saved. Please, try again.'));
             }
         }

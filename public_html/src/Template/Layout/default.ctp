@@ -1,5 +1,6 @@
 <?php
 use Cake\Utility\Inflector;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -145,13 +146,13 @@ use Cake\Utility\Inflector;
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="<?= WWW_ROOT.'img/users/avatar5.png' ?>" class="user-image" alt="User Image"/>
+                  <img src="<?= 'img/users/avatar5.png' ?>" class="user-image" alt="User Image"/>
                   <span class="hidden-xs"><?= $logged_in->getFullName() ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="<?= WWW_ROOT.'img/users/avatar5.png' ?>" class="img-circle" alt="User Image" />
+                    <img src="<?= 'img/users/avatar5.png' ?>" class="img-circle" alt="User Image" />
                     <p>
                         
                       <?= $logged_in->getFullName() ?> - <?= $logged_in->getUserRole()->name ?>
@@ -199,7 +200,7 @@ use Cake\Utility\Inflector;
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="<?= WWW_ROOT.'img/users/avatar5.png' ?>" class="img-circle" alt="User Image" />
+              <img src="<?= WWW_ROOT .'img/users/avatar5.png'?>" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
               <p><?= $logged_in->getFullName() ?></p>
@@ -558,6 +559,8 @@ use Cake\Utility\Inflector;
     <!-- jQuery 2.1.4 -->
     <?= $this->Html->script('plugins/jQuery/jQuery-2.1.4.min.js'); ?>    
        
+    <?= $this->Html->script('bootstrap.min.js'); ?>
+
     <!-- SlimScroll -->
     <?= $this->Html->script('plugins/slimScroll/jquery.slimscroll.min.js'); ?>
     
@@ -567,12 +570,14 @@ use Cake\Utility\Inflector;
     <!-- Theme JS -->
     <?= $this->Html->script('app.min.js'); ?>
     
+    <?= $this->Html->script('pages/dashboard2.js'); ?>
+    
     <!-- Demo JS --> 
     <?= $this->Html->script('demo.js'); ?>
    
-    <?= $this->Html->script('bootstrap.min.js'); ?>
+
     
-    <?= $this->Html->script('pages/dashboard2.js'); ?>
+    <?= $this->Html->script('pages/dashboard1.js'); ?>
     
     <?= $this->fetch('script') ?>
   </body>

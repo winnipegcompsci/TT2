@@ -55,6 +55,7 @@ class TicketsController extends AppController
                 $this->Flash->success(__('The ticket has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
+                echo "<pre>" . print_r($this->Tickets, true) . "</pre>";
                 $this->Flash->error(__('The ticket could not be saved. Please, try again.'));
             }
         }
@@ -91,7 +92,7 @@ class TicketsController extends AppController
                 $this->Flash->success(__('The ticket has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The ticket could not be saved. Please, try again.'));
+                $this->Flash->error(__('The ticket could not be edited. Please, try again.'));
             }
         }
         $customers = $this->Tickets->Customers->find('list', ['limit' => 200]);

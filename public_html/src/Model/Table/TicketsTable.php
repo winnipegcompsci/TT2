@@ -136,17 +136,17 @@ class TicketsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
-        $rules->add($rules->existsIn(['contact_id'], 'Contacts'));
-        $rules->add($rules->existsIn(['ticket_type_id'], 'TicketTypes'));
-        $rules->add($rules->existsIn(['service_type_id'], 'ServiceTypes'));
-        $rules->add($rules->existsIn(['ticket_priority_id'], 'TicketPriorities'));
-        $rules->add($rules->existsIn(['ticket_status_id'], 'TicketStatuses'));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['customer_site_id'], 'CustomerSites'));
-        $rules->add($rules->existsIn(['project_id'], 'Projects'));
-        $rules->add($rules->existsIn(['billing_status_id'], 'BillingStatuses'));
-        $rules->add($rules->existsIn(['quote_id'], 'Quotes'));
+        // $rules->add($rules->existsIn(['customer_id'], 'Customers'));
+        // $rules->add($rules->existsIn(['contact_id'], 'Contacts'));
+        // $rules->add($rules->existsIn(['ticket_type_id'], 'TicketTypes'));
+        // $rules->add($rules->existsIn(['service_type_id'], 'ServiceTypes'));
+        // $rules->add($rules->existsIn(['ticket_priority_id'], 'TicketPriorities'));
+        // $rules->add($rules->existsIn(['ticket_status_id'], 'TicketStatuses'));
+        // $rules->add($rules->existsIn(['user_id'], 'Users'));
+        // $rules->add($rules->existsIn(['customer_site_id'], 'CustomerSites'));
+        // $rules->add($rules->existsIn(['project_id'], 'Projects'));
+        // $rules->add($rules->existsIn(['billing_status_id'], 'BillingStatuses'));
+        // $rules->add($rules->existsIn(['quote_id'], 'Quotes'));
         return $rules;
     }
 }

@@ -55,6 +55,7 @@ class TicketEventsController extends AppController
                 $this->Flash->success(__('The ticket event has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
+                echo "<pre>" . print_r($ticketEvent, TRUE) . "</pre>";
                 $this->Flash->error(__('The ticket event could not be saved. Please, try again.'));
             }
         }

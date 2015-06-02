@@ -77,11 +77,7 @@ class TicketEventsTable extends Table
             ->add('time_taken', 'valid', ['rule' => 'numeric'])
             ->requirePresence('time_taken', 'create')
             ->notEmpty('time_taken');
-            
-        $validator
-            ->requirePresence('is_resolution', 'create')
-            ->notEmpty('is_resolution');
-            
+                        
         $validator
             ->add('resolution_date', 'valid', ['rule' => 'datetime'])
             ->requirePresence('resolution_date', 'create')
@@ -109,11 +105,11 @@ class TicketEventsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['ticket_id'], 'Tickets'));
-        $rules->add($rules->existsIn(['ticket_event_type_id'], 'TicketEventTypes'));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['billing_type_id'], 'BillingTypes'));
-        $rules->add($rules->existsIn(['time_type_id'], 'TimeTypes'));
+        // $rules->add($rules->existsIn(['ticket_id'], 'Tickets'));
+        // $rules->add($rules->existsIn(['ticket_event_type_id'], 'TicketEventTypes'));
+        // $rules->add($rules->existsIn(['user_id'], 'Users'));
+        // $rules->add($rules->existsIn(['billing_type_id'], 'BillingTypes'));
+        // $rules->add($rules->existsIn(['time_type_id'], 'TimeTypes'));
         return $rules;
     }
 }
