@@ -55,4 +55,12 @@ class User extends Entity
     public function getUserRole() {
         return TableRegistry::get('User_Roles')->findById($this->user_role_id)->first();
     }
+    
+    public function isOnline() {
+        if($this->is_online == true) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 }

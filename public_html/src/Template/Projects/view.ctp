@@ -1,3 +1,6 @@
+<?php 
+use Cake\ORM\TableRegistry;
+?>
 <div class="actions columns col-lg-2 col-md-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
@@ -51,104 +54,74 @@
             <?= $this->Text->autoParagraph(h($project->description)) ?>
         </div>
     </div>
-</div>
-<div class="related row">
-    <div class="column col-lg-12">
-    <h4 class="subheader"><?= __('Related ProjectTasks') ?></h4>
-    <?php if (!empty($project->project_tasks)): ?>
-    <table cellpadding="0" cellspacing="0">
-        <tr>
-            <th><?= __('Id') ?></th>
-            <th><?= __('Project Id') ?></th>
-            <th><?= __('Title') ?></th>
-            <th><?= __('Body') ?></th>
-            <th><?= __('User Id') ?></th>
-            <th><?= __('Deadline') ?></th>
-            <th><?= __('Done') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-        <?php foreach ($project->project_tasks as $projectTasks): ?>
-        <tr>
-            <td><?= h($projectTasks->id) ?></td>
-            <td><?= h($projectTasks->project_id) ?></td>
-            <td><?= h($projectTasks->title) ?></td>
-            <td><?= h($projectTasks->body) ?></td>
-            <td><?= h($projectTasks->user_id) ?></td>
-            <td><?= h($projectTasks->deadline) ?></td>
-            <td><?= h($projectTasks->done) ?></td>
-
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['controller' => 'ProjectTasks', 'action' => 'view', $projectTasks->id]) ?>
-
-                <?= $this->Html->link(__('Edit'), ['controller' => 'ProjectTasks', 'action' => 'edit', $projectTasks->id]) ?>
-
-                <?= $this->Form->postLink(__('Delete'), ['controller' => 'ProjectTasks', 'action' => 'delete', $projectTasks->id], ['confirm' => __('Are you sure you want to delete # {0}?', $projectTasks->id)]) ?>
-
-            </td>
-        </tr>
-
-        <?php endforeach; ?>
-    </table>
-    <?php endif; ?>
+    
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">Project Tasks</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <ul class="todo-list">
+                <?php foreach ($project->project_tasks as $projectTasks): 
+                    if($projectTasks->done) {
+                        $liClass = "done";
+                        $checked = "checked";
+                    } else {
+                        $liClass = "";
+                        $checked = "";
+                    }
+                ?>
+                    <li class="<?= $liClass ?>">
+                    <!-- drag handle -->
+                    <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                    </span>
+                    <!-- checkbox -->
+                      <input type="checkbox" <?= $checked ?> value="" name=""/>
+                      <!-- todo text -->
+                      <span class="text"><?= $projectTasks->title ?></span>
+                      <span class="text">(Assigned to <?= TableRegistry::get('Users')->findById($projectTasks->user_id)->first()->first_name . 
+                        ' ' . TableRegistry::get('Users')->findById($projectTasks->user_id)->first()->last_name .
+                        ')'
+                         ?></span>
+                      <?php if($projectTasks->done) { ?>
+                      <!-- Emphasis label -->
+                      <small class="label label-success pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>
+                      <?php } else { ?>
+                      <small class="label label-danger pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>
+                      <?php } ?>
+                      
+                      <!-- General tools such as edit or delete-->
+                      <div class="tools">
+                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-trash-o"></i>
+                      </div>
+                    </li>
+            <?php endforeach; ?>
+          </ul>
+        </div><!-- /.box-body -->
+        <div class="box-footer clearfix no-border">
+          <button class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add Task</button>
+        </div>
+        </div><!-- /.box -->
     </div>
 </div>
-<div class="related row">
-    <div class="column col-lg-12">
-    <h4 class="subheader"><?= __('Related Tickets') ?></h4>
-    <?php if (!empty($project->tickets)): ?>
-    <table cellpadding="0" cellspacing="0">
-        <tr>
-            <th><?= __('Id') ?></th>
-            <th><?= __('Date Created') ?></th>
-            <th><?= __('Customer Id') ?></th>
-            <th><?= __('Contact Id') ?></th>
-            <th><?= __('Ticket Type Id') ?></th>
-            <th><?= __('Service Type Id') ?></th>
-            <th><?= __('Ticket Priority Id') ?></th>
-            <th><?= __('Problem Description') ?></th>
-            <th><?= __('Solution') ?></th>
-            <th><?= __('Ticket Status Id') ?></th>
-            <th><?= __('User Id') ?></th>
-            <th><?= __('Dis') ?></th>
-            <th><?= __('Customer Site Id') ?></th>
-            <th><?= __('Project Id') ?></th>
-            <th><?= __('Completion') ?></th>
-            <th><?= __('Billing Status Id') ?></th>
-            <th><?= __('Quote Id') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-        <?php foreach ($project->tickets as $tickets): ?>
-        <tr>
-            <td><?= h($tickets->id) ?></td>
-            <td><?= h($tickets->date_created) ?></td>
-            <td><?= h($tickets->customer_id) ?></td>
-            <td><?= h($tickets->contact_id) ?></td>
-            <td><?= h($tickets->ticket_type_id) ?></td>
-            <td><?= h($tickets->service_type_id) ?></td>
-            <td><?= h($tickets->ticket_priority_id) ?></td>
-            <td><?= h($tickets->problem_description) ?></td>
-            <td><?= h($tickets->solution) ?></td>
-            <td><?= h($tickets->ticket_status_id) ?></td>
-            <td><?= h($tickets->user_id) ?></td>
-            <td><?= h($tickets->dis) ?></td>
-            <td><?= h($tickets->customer_site_id) ?></td>
-            <td><?= h($tickets->project_id) ?></td>
-            <td><?= h($tickets->completion) ?></td>
-            <td><?= h($tickets->billing_status_id) ?></td>
-            <td><?= h($tickets->quote_id) ?></td>
 
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['controller' => 'Tickets', 'action' => 'view', $tickets->id]) ?>
+   <?php 
+   
+    $this->Html->scriptStart(['block' => true]);
+    echo '  /* The todo list plugin */
+  $(".todo-list").todolist({
+    onCheck: function (ele) {
+      console.log("The element has been checked")
+    },
+    onUncheck: function (ele) {
+      console.log("The element has been unchecked")
+    }
+  });';
+    
+    $this->Html->scriptEnd();
+    ?>
 
-                <?= $this->Html->link(__('Edit'), ['controller' => 'Tickets', 'action' => 'edit', $tickets->id]) ?>
-
-                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Tickets', 'action' => 'delete', $tickets->id], ['confirm' => __('Are you sure you want to delete # {0}?', $tickets->id)]) ?>
-
-            </td>
-        </tr>
-
-        <?php endforeach; ?>
-    </table>
-    <?php endif; ?>
-    </div>
-</div>

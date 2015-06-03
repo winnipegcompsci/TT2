@@ -21,7 +21,7 @@
     </ul>
 </div>
 <div class="customers index col-lg-10 col-md-9 columns">
-    <table cellpadding="0" cellspacing="0">
+    <table id="customers-table" cellpadding="0" cellspacing="0">
     <thead>
         <tr>
             <th><?= $this->Paginator->sort('id') ?></th>
@@ -65,3 +65,11 @@
         <p><?= $this->Paginator->counter() ?></p>
     </div>
 </div>
+
+    <?php 
+    $this->Html->scriptStart(['block' => true]);
+    echo "$(document).ready(function() {
+    $('#customers-table').DataTable();
+} );";
+    $this->Html->scriptEnd();
+    ?>

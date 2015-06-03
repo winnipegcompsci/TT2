@@ -13,10 +13,11 @@
     </ul>
 </div>
 <div class="projects index col-lg-10 col-md-9 columns">
-    <table cellpadding="0" cellspacing="0">
+    <table id='projects-table' cellpadding="0" cellspacing="0">
     <thead>
         <tr>
             <th><?= $this->Paginator->sort('id') ?></th>
+            <th><?= $this->Paginator->sort('name') ?></th>
             <th><?= $this->Paginator->sort('date_created') ?></th>
             <th><?= $this->Paginator->sort('project_status_id') ?></th>
             <th><?= $this->Paginator->sort('max_hours') ?></th>
@@ -30,6 +31,7 @@
     <?php foreach ($projects as $project): ?>
         <tr>
             <td><?= $this->Number->format($project->id) ?></td>
+            <td><?= ucwords($project->name) ?></td>
             <td><?= h($project->date_created) ?></td>
             <td>
                 <?= $project->has('project_status') ? $this->Html->link($project->project_status->name, ['controller' => 'ProjectStatuses', 'action' => 'view', $project->project_status->id]) : '' ?>
@@ -59,3 +61,11 @@
         <p><?= $this->Paginator->counter() ?></p>
     </div>
 </div>
+
+    <?php 
+    $this->Html->scriptStart(['block' => true]);
+        echo "$(document).ready(function() {
+            $('#projects-table').DataTable();
+        } );";
+    $this->Html->scriptEnd();
+    ?>

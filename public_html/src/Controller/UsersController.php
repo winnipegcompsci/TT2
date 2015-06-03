@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -17,7 +19,7 @@ class UsersController extends AppController
      * @return void
      */
      
-    public function beforeFilter($event) 
+    public function beforeFilter(Event $event) 
     {
         parent::beforeFilter($event);
         $this->Auth->allow(['logout']);
@@ -92,6 +94,30 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
+    public function toggleOnlineStatus($id) {
+        $usersTable = TableRegistry::get('Users');
+        $thisuser = $usersTable->get($id);
+        
+        if($thisuser->is_online == false) {
+            $thisuser->is_online = true;
+            $statustext = "ONLINE";
+        } else {
+            $thisuser->is_online = false;
+            $statustext = "OFFLINE";
+        }
+        
+        if($usersTable->save($thisuser)) {
+            $this->Flash->default("Changed User Availability to " . $statustext);
+        } else {
+            error_log("NOT SAVED");
+            $this->Flash->error("Could not update status -- try soon");
+        }
+        
+        // Reload Page
+        return $this->redirect($this->referer());
+        
+    }
+    
     /**
      * Edit method
      *

@@ -1,5 +1,8 @@
 <?php
 use Cake\Utility\Inflector;
+use Cake\ORM\TableRegistry;
+
+$logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +17,8 @@ use Cake\Utility\Inflector;
     <!-- Ionicons -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
-
+    <link href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -77,13 +81,13 @@ use Cake\Utility\Inflector;
                       <li><!-- start message -->
                         <a href="#">
                           <div class="pull-left">
-                            <img src="<?= WWW_ROOT .'img/users/avatar5.png' ?>" class="img-circle" alt="User Image"/>
+                            <img src="<?= $this->Url->build('/img/users/avatar04.png'); ?>" class="img-circle" alt="User Image"/>
                           </div>
                           <h4>
-                            Support Team
+                            Management Team
                             <small><i class="fa fa-clock-o"></i> 5 mins</small>
                           </h4>
-                          <p>Why not buy a new awesome theme?</p>
+                          <p>Setup Projects!</p>
                         </a>
                       </li><!-- end message -->
                     </ul>
@@ -146,17 +150,17 @@ use Cake\Utility\Inflector;
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="<?= 'img/users/avatar5.png' ?>" class="user-image" alt="User Image"/>
-                  <span class="hidden-xs"><?= $logged_in->getFullName() ?></span>
+                  <img src="<?= $this->Url->build('/img/users/' . $logged_in['picture']); ?>" class="user-image" alt="User Image"/>
+                  <span class="hidden-xs"><?= $logged_in['first_name'] ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="<?= 'img/users/avatar5.png' ?>" class="img-circle" alt="User Image" />
+                    <img src="<?= $this->Url->build('/img/users/' . $logged_in['picture']); ?>" class="img-circle" alt="User Image" />
                     <p>
                         
-                      <?= $logged_in->getFullName() ?> - <?= $logged_in->getUserRole()->name ?>
-                      <small>Member since <?= date("D, M j, Y", strtotime($logged_in->user_created)); ?></small>
+                      <?= $logged_in['first_name'] . ' ' . $logged_in['last_name'] ?> - <?= $logged_in->getUserRole()->name ?>
+                      <small>Member since <?= date("D, M j, Y", strtotime($logged_in['user_created'])); ?></small>
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -200,12 +204,24 @@ use Cake\Utility\Inflector;
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="<?= WWW_ROOT .'img/users/avatar5.png'?>" class="img-circle" alt="User Image" />
+              <img src="<?= $this->Url->build('/img/users/' . $logged_in['picture']); ?>" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-              <p><?= $logged_in->getFullName() ?></p>
+              <p><?= $logged_in['first_name'] . $logged_in['last_name'] ?></p>
 
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+              <a href="#">
+                <?php 
+                    if($logged_in->isOnline()) {
+                        ?>
+                        <i class="fa fa-circle text-success"></i> Online
+                        <?php
+                    } else {
+                        ?>
+                        <i class="fa fa-circle text-danger"></i> Offline
+                        <?php 
+                    }
+                ?>
+                </a>
             </div>
           </div>
           <!-- search form -->
@@ -229,7 +245,7 @@ use Cake\Utility\Inflector;
             </li>    
             <li>
              <a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>">
-                <i class="fa fa-list-ol"></i> <span>Projects</span> <small class="label pull-right bg-red">2</small></i>
+                <i class="fa fa-list-ol"></i> <span>Projects</span> <small class="label pull-right bg-yellow"><?= $num_open_projects ?></small></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Projects</a></li>
@@ -239,7 +255,7 @@ use Cake\Utility\Inflector;
             
             <li class="treeview">
               <a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'index']); ?>">
-                <i class="fa fa-support"></i> <span>Tickets</span> <small class="label pull-right bg-yellow">3</small></i>
+                <i class="fa fa-support"></i> <span>Tickets</span> <small class="label pull-right bg-red"><?= $num_open_tickets ?></small></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Tickets</a></li>
@@ -362,8 +378,11 @@ use Cake\Utility\Inflector;
         <?= $this->Flash->render() ?>
         <section class="content-header">
           <h1>
+            <a href="<?= $this->Url->build(['Controller' => $this->name, 'action' => 'index']) ?>">
+            <small>back to</small>
             <?= $this->name ?>
-            <small>for enigma networks</small>
+            <small>for enigma networks...</small>
+            </a>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -529,7 +548,24 @@ use Cake\Utility\Inflector;
               <div class="form-group">
                 <label class="control-sidebar-subheading">
                   Show me as online
-                  <input type="checkbox" class="pull-right" checked />
+                  <?php 
+                    if($logged_in->isOnline()) {
+                        $isChecked = "checked";
+
+                    } else {
+                        $isChecked = "";
+                    }
+
+                    $url = $this->Url->build([
+                        'controller' => 'Users', 
+                        'action' => 'toggleOnlineStatus', 
+                        $logged_in['id']
+                    ]);
+                    
+                    $onchange = "setChatStatus('" . $url . "')";
+                    
+                  ?>
+                  <input onchange="<?= $onchange ?>" id="togglechat" type="checkbox" class="pull-right" <?= $isChecked ?> />
                 </label>                
               </div><!-- /.form-group -->
 
@@ -554,7 +590,7 @@ use Cake\Utility\Inflector;
            immediately after the control sidebar -->
       <div class='control-sidebar-bg'></div>
     </div><!-- ./wrapper -->
-
+    
 
     <!-- jQuery 2.1.4 -->
     <?= $this->Html->script('plugins/jQuery/jQuery-2.1.4.min.js'); ?>    
@@ -567,18 +603,16 @@ use Cake\Utility\Inflector;
     <!-- FastClick --> 
     <?= $this->Html->script('plugins/fastclick/fastclick.min.js'); ?>
     
+    <?= $this->Html->script('//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js'); ?>
+    
     <!-- Theme JS -->
     <?= $this->Html->script('app.min.js'); ?>
     
-    <?= $this->Html->script('pages/dashboard2.js'); ?>
+    <?= $this->Html->script('pages/sidebar.js'); ?>
     
     <!-- Demo JS --> 
     <?= $this->Html->script('demo.js'); ?>
-   
-
-    
-    <?= $this->Html->script('pages/dashboard1.js'); ?>
-    
+            
     <?= $this->fetch('script') ?>
   </body>
 </html>

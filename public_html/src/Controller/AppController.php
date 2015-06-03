@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
 
 /**
  * Application Controller
@@ -50,13 +51,19 @@ class AppController extends Controller
             ]
         ]);
         
-        $this->set('logged_in', TableRegistry::get('Users')->findById($this->Auth->user('id'))->first());
-        // $user_full_name = $this->Auth->user('first_name') . ' ' . $this->Auth->user('last_name');
-        // $this->set('user_full_name', $user_full_name);
+        $this->set('logged_in_id', $this->Auth->user('id'));
+        $this->set('num_open_tickets', TableRegistry::get('Tickets')->find('all', [
+            'conditions' => ['ticket_status_id !=' => '2']
+        ])->count());
+        $this->set('num_open_projects', TableRegistry::get('Projects')->find('all', [
+            'conditions' => ['project_status_id =' => '0']
+        ])->count());
+        
     }
         
-    public function beforeFilter($event)
+    public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['index','view','display']);
     }
+    
 }
