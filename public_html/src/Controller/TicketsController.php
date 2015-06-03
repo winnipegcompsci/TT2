@@ -19,7 +19,7 @@ class TicketsController extends AppController
     public function index()
     {        
         $this->paginate = [
-            'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'Projects', 'BillingStatuses', 'Quotes']
+            'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'BillingStatuses', 'Quotes']
         ];
         $this->set('tickets', $this->paginate($this->Tickets));
         $this->set('_serialize', ['tickets']);
@@ -35,7 +35,7 @@ class TicketsController extends AppController
     public function view($id = null)
     {
         $ticket = $this->Tickets->get($id, [
-            'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'Projects', 'BillingStatuses', 'Quotes', 'TicketEvents', 'TicketHistory']
+            'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'BillingStatuses', 'Quotes']
         ]);
         $this->set('ticket', $ticket);
         $this->set('_serialize', ['ticket']);

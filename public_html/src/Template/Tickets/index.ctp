@@ -38,9 +38,11 @@
             <th><?= $this->Paginator->sort('date_created') ?></th>
             <th><?= $this->Paginator->sort('customer_id') ?></th>
             <th><?= $this->Paginator->sort('contact_id') ?></th>
+            <th><?= $this->Paginator->sort('user_id', 'Assigned User') ?></th>
             <th><?= $this->Paginator->sort('ticket_type_id') ?></th>
             <th><?= $this->Paginator->sort('service_type_id') ?></th>
             <th><?= $this->Paginator->sort('ticket_priority_id') ?></th>
+            <th><?= $this->Paginator->sort('completion') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
     </thead>
@@ -53,7 +55,10 @@
                 <?= $ticket->has('customer') ? $this->Html->link($ticket->customer->name, ['controller' => 'Customers', 'action' => 'view', $ticket->customer->id]) : '' ?>
             </td>
             <td>
-                <?= $ticket->has('contact') ? $this->Html->link($ticket->contact->id, ['controller' => 'Contacts', 'action' => 'view', $ticket->contact->id]) : '' ?>
+                <?= $ticket->has('contact') ? $this->Html->link($ticket->contact->first_name . ' ' . $ticket->contact->last_name, ['controller' => 'Contacts', 'action' => 'view', $ticket->contact->id]) : '' ?>
+            </td>
+            <td>
+                <?= $ticket->has('user') ? $this->Html->link($ticket->user->getFullName(), ['controller' => 'Users', 'action' => 'view', $ticket->user->id]) : '' ?>
             </td>
             <td>
                 <?= $ticket->has('ticket_type') ? $this->Html->link($ticket->ticket_type->name, ['controller' => 'TicketTypes', 'action' => 'view', $ticket->ticket_type->id]) : '' ?>
@@ -63,6 +68,24 @@
             </td>
             <td>
                 <?= $ticket->has('ticket_priority') ? $this->Html->link($ticket->ticket_priority->name, ['controller' => 'TicketPriorities', 'action' => 'view', $ticket->ticket_priority->id]) : '' ?>
+            </td>
+            <td>
+                <div class="progress">
+                    <?php
+                    $className = "progress-bar-info";
+                    if($ticket->completion < 60) {
+                           $className = "progress-bar-warning";
+                        } else if ($ticket->completion < 30) {
+                            $className = "progress-bar-danger";
+                        } else if ($ticket->completion >= 60) {
+                            $className = "progress-bar-success";
+                        }
+                    ?>
+                    <div class="progress-bar progress-bar-primary progress-bar-striped <?= $className ?>" role="progressbar" aria-valuenow="<?= $this->Number->format($ticket->completion) ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $this->Number->format($ticket->completion) ?>%">
+                        <span class="sr-only"><?= $this->Number->format($ticket->completion) ?> Complete </span>
+                        <?= $this->Number->format($ticket->completion) ?>% Complete
+                    </div>
+                </div>
             </td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $ticket->id]) ?>

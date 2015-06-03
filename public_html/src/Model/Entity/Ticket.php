@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 
 /**
@@ -46,4 +47,13 @@ class Ticket extends Entity
         'ticket_events' => true,
         'ticket_history' => true,
     ];
+    
+    public function getEvents() {
+        $events = TableRegistry::get('TicketEvents')->find('all', [
+            'conditions' => ['ticket_id' => $this->id],
+            'contain' => ['Users']
+        ]);
+        
+        return $events;
+    }
 }

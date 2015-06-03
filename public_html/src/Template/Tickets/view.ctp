@@ -16,7 +16,7 @@
             <h6 class="subheader"><?= __('Ticket Status') ?></h6>
             <p><?= $ticket->has('ticket_status') ? $this->Html->link($ticket->ticket_status->name, ['controller' => 'TicketStatuses', 'action' => 'view', $ticket->ticket_status->id]) : '' ?></p>
             <h6 class="subheader"><?= __('User') ?></h6>
-            <p><?= $ticket->has('user') ? $this->Html->link($ticket->user->id, ['controller' => 'Users', 'action' => 'view', $ticket->user->id]) : '' ?></p>
+            <p><?= $ticket->has('user') ? $this->Html->link($ticket->user->getFullName(), ['controller' => 'Users', 'action' => 'view', $ticket->user->id]) : '' ?></p>
             <h6 class="subheader"><?= __('Customer Site') ?></h6>
             <p><?= $ticket->has('customer_site') ? $this->Html->link($ticket->customer_site->id, ['controller' => 'CustomerSites', 'action' => 'view', $ticket->customer_site->id]) : '' ?></p>
             <h6 class="subheader"><?= __('Project') ?></h6>
@@ -67,11 +67,11 @@
         
         <div class="timeline">
             <div class="column col-lg-9 pull-right">
-                <h4 class="subheader"><?= __('Ticket Events') ?></h4>
-                <?php if (!empty($ticket->ticket_events)): ?>
+                <h4 class="subheader text-center"><?= __('Ticket Events') ?></h4>
+                <?php if (!empty($ticket->getEvents())): ?>
                     <ul class="timeline">
 
-                    <? foreach ($ticket->ticket_events as $ticketEvent) {  ?>
+                    <? foreach ($ticket->getEvents() as $ticketEvent) {  ?>
                     <!-- timeline time label -->
                     <li class="time-label">
                         <span class="bg-red">
@@ -86,8 +86,8 @@
                         <i class="fa fa-envelope bg-blue"></i>
                         <div class="timeline-item">
                             <span class="time"><i class="fa fa-clock-o"></i> <?= $ticketEvent->time_taken . " minutes" ?></span>
-
-                            <h3 class="timeline-header"><a href="#"><?= $ticketEvent->user_id ?></a> ...</h3>
+                           
+                            <h3 class="timeline-header"><a href="#"><?= $ticketEvent->user->getFullName() ?></a> ...</h3>
 
                             <div class="timeline-body">
                                 <?= $ticketEvent->description ?>

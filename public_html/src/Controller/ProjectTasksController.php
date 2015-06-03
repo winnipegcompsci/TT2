@@ -109,4 +109,23 @@ class ProjectTasksController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function toggleProjectTaskDone($id = null) {
+        
+        $projectTask = $this->ProjectTasks->get($id);
+        
+        if($projectTask->done == true) {
+            $projectTask->done = false;
+        } else  {
+            $projectTask->done = true;
+        }
+        
+        if($this->ProjectTasks->save($projectTask)) {
+            $this->Flash->default("Updated Project Task");
+        } else {
+            $this->Flash->error("Could not update project task completion");
+        }
+        
+        return $this->redirect($this->referer());
+    }
 }

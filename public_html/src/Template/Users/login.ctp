@@ -1,7 +1,7 @@
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>TT</b>v2.0</a>
+        <a href="" class="text-success"><b>TT</b>v2.0</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>

@@ -44,12 +44,6 @@ use Cake\ORM\TableRegistry;
     </div>
     <div class="row texts">
         <div class="columns col-lg-9">
-            <h6 class="subheader"><?= __('Name') ?></h6>
-            <?= $this->Text->autoParagraph(h($project->name)) ?>
-        </div>
-    </div>
-    <div class="row texts">
-        <div class="columns col-lg-9">
             <h6 class="subheader"><?= __('Description') ?></h6>
             <?= $this->Text->autoParagraph(h($project->description)) ?>
         </div>
@@ -79,13 +73,17 @@ use Cake\ORM\TableRegistry;
                     <i class="fa fa-ellipsis-v"></i>
                     </span>
                     <!-- checkbox -->
-                      <input type="checkbox" <?= $checked ?> value="" name=""/>
+                      <?php $changeStatusURL = $this->Url->build([
+                        'controller' => 'ProjectTasks',
+                        'action' => 'toggleProjectTaskDone',
+                        $projectTasks->id
+                      ]);
+                        // debug($changeStatusURL);
+                      ?>
+                      <input onchange="callCakeFunction('<?= $changeStatusURL ?>')" type="checkbox" <?= $checked ?> value="" name=""/>
                       <!-- todo text -->
                       <span class="text"><?= $projectTasks->title ?></span>
-                      <span class="text">(Assigned to <?= TableRegistry::get('Users')->findById($projectTasks->user_id)->first()->first_name . 
-                        ' ' . TableRegistry::get('Users')->findById($projectTasks->user_id)->first()->last_name .
-                        ')'
-                         ?></span>
+                      <span class="text">(Assigned to <?= $projectTasks->getAssignedUserName() ?>)</span>
                       <?php if($projectTasks->done) { ?>
                       <!-- Emphasis label -->
                       <small class="label label-success pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>
@@ -95,8 +93,9 @@ use Cake\ORM\TableRegistry;
                       
                       <!-- General tools such as edit or delete-->
                       <div class="tools">
-                        <i class="fa fa-edit"></i>
-                        <i class="fa fa-trash-o"></i>
+                        <a type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal_task_<?= $projectTasks->id ?>"><i class="fa fa-info"></i></a>
+                        <a class="btn btn-warning btn-xs" href="<?= $this->Url->build(['controller' => 'ProjectTasks', 'action' => 'edit', $projectTasks->id]) ?>"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger btn-xs"  href="<?= $this->Url->build(['controller' => 'ProjectTasks', 'action' => 'edit', $projectTasks->id]) ?>"><i class="fa fa-trash-o"></i></a>
                       </div>
                     </li>
             <?php endforeach; ?>
@@ -109,19 +108,29 @@ use Cake\ORM\TableRegistry;
     </div>
 </div>
 
-   <?php 
-   
-    $this->Html->scriptStart(['block' => true]);
-    echo '  /* The todo list plugin */
-  $(".todo-list").todolist({
-    onCheck: function (ele) {
-      console.log("The element has been checked")
-    },
-    onUncheck: function (ele) {
-      console.log("The element has been unchecked")
-    }
-  });';
-    
-    $this->Html->scriptEnd();
-    ?>
+<?php 
+foreach ($project->project_tasks as $projectTask):  ?>
+<!-- Modal -->
 
+<div id="modal_task_<?= $projectTask->id ?>" class="modal modal-info fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-info"></i> Task:  <?= $projectTask->title ?></h4>
+      </div>
+      <div class="modal-body">
+        <p><?= $projectTask->body ?></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<?php 
+endforeach;
+?>

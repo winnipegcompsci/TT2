@@ -1,5 +1,6 @@
 <?php
 namespace App\Model\Entity;
+use Cake\ORM\TableRegistry;
 
 use Cake\ORM\Entity;
 
@@ -24,4 +25,14 @@ class ProjectTask extends Entity
         'project' => true,
         'user' => true,
     ];
+    
+    public function getAssignedUserName() {
+        $user = TableRegistry::get('Users')->findById($this->user_id)->first();
+        
+        if($user) {
+            return $user->getFullName();
+        } else {
+            return "--Nobody--";
+        }
+    }
 }

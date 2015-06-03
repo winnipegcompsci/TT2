@@ -34,7 +34,6 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
     
     <!-- AdminLTE Skins. -->
     <?=  $this->Html->css('skins/skin-blue.css') ?>
-    
 
 
     <?= $this->fetch('meta') ?>
@@ -96,57 +95,16 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 </ul>
               </li>
               <!-- Notifications: style can be found in dropdown.less -->
-              <li class="dropdown notifications-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
-                  <li>
-                    <!-- inner menu: contains the actual data -->
-                    <ul class="menu">
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="footer"><a href="#">View all</a></li>
-                </ul>
-              </li>
+              <?= 
+                $this->element('notification_details_header');
+              ?>
               <!-- Tasks: style can be found in dropdown.less -->
-              <li class="dropdown tasks-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-flag-o"></i>
-                  <span class="label label-danger">9</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 9 tasks</li>
-                  <li>
-                    <!-- inner menu: contains the actual data -->
-                    <ul class="menu">
-                      <li><!-- Task item -->
-                        <a href="#">
-                          <h3>
-                            Design some buttons
-                            <small class="pull-right">20%</small>
-                          </h3>
-                          <div class="progress xs">
-                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                              <span class="sr-only">20% Complete</span>
-                            </div>
-                          </div>
-                        </a>
-                      </li><!-- end task item -->
-                    </ul>
-                  </li>
-                  <li class="footer">
-                    <a href="#">View all tasks</a>
-                  </li>
-                </ul>
-              </li>
+              <?= 
+                $this->element('ticket_details_header', [
+                    'this_user' => $logged_in
+                ]); 
+              ?>
+                            
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -159,7 +117,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                     <img src="<?= $this->Url->build('/img/users/' . $logged_in['picture']); ?>" class="img-circle" alt="User Image" />
                     <p>
                         
-                      <?= $logged_in['first_name'] . ' ' . $logged_in['last_name'] ?> - <?= $logged_in->getUserRole()->name ?>
+                      <?= $logged_in['first_name'] . ' ' . $logged_in['last_name'] ?> - <?= $logged_in ? $logged_in->getUserRole()->name : '' ?>
                       <small>Member since <?= date("D, M j, Y", strtotime($logged_in['user_created'])); ?></small>
                     </p>
                   </li>
@@ -178,7 +136,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profile']); ?>" class="btn btn-default btn-flat">Profile</a>
+                      <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'view', $logged_in->id]); ?>" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
                       <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']); ?>" class="btn btn-default btn-flat">Sign out</a>
@@ -207,11 +165,11 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               <img src="<?= $this->Url->build('/img/users/' . $logged_in['picture']); ?>" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-              <p><?= $logged_in['first_name'] . $logged_in['last_name'] ?></p>
+              <p><?= $logged_in['first_name'] . ' ' . $logged_in['last_name'] ?></p>
 
               <a href="#">
                 <?php 
-                    if($logged_in->isOnline()) {
+                    if($logged_in && $logged_in->isOnline()) {
                         ?>
                         <i class="fa fa-circle text-success"></i> Online
                         <?php
@@ -225,7 +183,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </div>
           </div>
           <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
+          <form action="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'search']); ?>" method="get" class="sidebar-form">
             <div class="input-group">
               <input type="text" name="q" class="form-control" placeholder="Search..."/>
               <span class="input-group-btn">
@@ -245,7 +203,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>    
             <li>
              <a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>">
-                <i class="fa fa-list-ol"></i> <span>Projects</span> <small class="label pull-right bg-yellow"><?= $num_open_projects ?></small></i>
+                <i class="fa fa-list-ol text-aqua"></i> <span>Projects</span> <small class="label pull-right bg-yellow"><?= $num_open_projects ?></small></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Projects</a></li>
@@ -255,7 +213,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             
             <li class="treeview">
               <a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'index']); ?>">
-                <i class="fa fa-support"></i> <span>Tickets</span> <small class="label pull-right bg-red"><?= $num_open_tickets ?></small></i>
+                <i class="fa fa-support text-aqua"></i> <span>Tickets</span> <small class="label pull-right bg-red"><?= $num_open_tickets ?></small></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Tickets</a></li>
@@ -265,31 +223,31 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             
             <li>
               <a href="<?= $this->Url->build(['controller' => 'Customers', 'action' => 'index']); ?>">
-                <i class="fa fa-user"></i> <span>Customers</span> 
+                <i class="fa fa-user text-aqua"></i> <span>Customers</span> 
               </a>
             </li>    
             
             <li>
               <a href="<?= $this->Url->build(['controller' => 'Quotes', 'action' => 'index']); ?>">
-                <i class="fa fa-usd"></i> <span>Quotes</span> 
+                <i class="fa fa-usd text-aqua"></i> <span>Quotes</span> 
               </a>
             </li>    
             
             <li>
               <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'asterisk_calls']); ?>">
-                <i class="fa fa-asterisk"></i> <span>Asterisk Call Logs</span> 
+                <i class="fa fa-asterisk text-aqua"></i> <span>Asterisk Call Logs</span> 
               </a>
             </li>
             
             <li>
               <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']); ?>">
-                <i class="fa fa-users"></i> <span>Users</span> 
+                <i class="fa fa-users text-aqua"></i> <span>Users</span> 
               </a>
             </li>
 
             <li class="treeview">
               <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'reports']); ?>">
-                <i class="fa fa-bar-chart"></i> <span>Reports</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-bar-chart text-aqua"></i> <span>Reports</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'ticket_report']); ?>"><i class="fa fa-circle-o"></i> Ticket Report</a></li>
@@ -306,7 +264,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>
             <li>
              <a href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'index']); ?>">
-                <i class="fa fa-shopping-cart"></i> <span>Orders</span> <small class="label pull-right bg-yellow">2</small></i>
+                <i class="fa fa-shopping-cart text-green"></i> <span>Orders</span> <small class="label pull-right bg-yellow">2</small></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Orders</a></li>
@@ -316,7 +274,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>
              <li>
              <a href="<?= $this->Url->build(['controller' => 'Inventory', 'action' => 'index']); ?>">
-                <i class="fa fa-barcode"></i> <span>Inventory</span>
+                <i class="fa fa-barcode text-green"></i> <span>Inventory</span>
               </a>
               <ul class="treeview-menu">               
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Inventory</a></li>
@@ -325,7 +283,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>
             <li>
              <a href="<?= $this->Url->build(['controller' => 'Wtcr_Products', 'action' => 'index']); ?>">
-                <i class="fa fa-desktop"></i> <span>WTCR Products</span>
+                <i class="fa fa-desktop text-green"></i> <span>WTCR Products</span>
               </a>
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Products</a></li>
@@ -334,7 +292,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>
             <li>
              <a href="<?= $this->Url->build(['controller' => 'Wtcr_vendors', 'action' => 'index']); ?>">
-                <i class="fa fa-inbox"></i> <span>Vendors</span> <small class="label pull-right bg-blue">2</small></i>
+                <i class="fa fa-inbox text-green"></i> <span>Vendors</span> <small class="label pull-right bg-blue">2</small></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>New Vendor Products</span></a></li>
@@ -344,7 +302,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>
                         <li>
              <a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>">
-                <i class="fa fa-usd"></i> <span>Marketplaces</span>
+                <i class="fa fa-usd text-green"></i> <span>Marketplaces</span>
               </a>
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o text-aqua"></i> Sales</a></li>
@@ -353,7 +311,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
             </li>
             <li>
              <a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>">
-                <i class="fa fa-bar-chart"></i> <span>Reports</span>  <i class="fa fa-angle-left pull-right"></i></i>
+                <i class="fa fa-bar-chart text-green"></i> <span>Reports</span>  <i class="fa fa-angle-left pull-right"></i></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Sales Report</a></li>
@@ -512,44 +470,25 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
           <!-- Settings tab content -->
           <div class="tab-pane" id="control-sidebar-settings-tab">            
             <form method="post">
-              <h3 class="control-sidebar-heading">General Settings</h3>
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Report panel usage
-                  <input type="checkbox" class="pull-right" checked />
-                </label>
-                <p>
-                  Some information about this general settings option
-                </p>
-              </div><!-- /.form-group -->
+            
+                <h3 class="control-sidebar-heading">Notification Settings</h3>
 
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Allow mail redirect
-                  <input type="checkbox" class="pull-right" checked />
-                </label>
-                <p>
-                  Other sets of options are available
-                </p>
-              </div><!-- /.form-group -->
+                    
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                    Send Customer Emails
+                    <input type="checkbox" class="pull-right" />
+                    </label> 
+                    Sends notification emails when I add an event to a ticket.           
+                </div><!-- /.form-group -->
+              
+                <h3 class="control-sidebar-heading">Chat Settings</h3>
 
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Expose author name in posts
-                  <input type="checkbox" class="pull-right" checked />
-                </label>
-                <p>
-                  Allow the user to show his name in blog posts
-                </p>
-              </div><!-- /.form-group -->
-
-              <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Show me as online
-                  <?php 
-                    if($logged_in->isOnline()) {
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                    Show me as online
+                    <?php 
+                    if($logged_in && $logged_in->isOnline()) {
                         $isChecked = "checked";
 
                     } else {
@@ -563,18 +502,17 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                     ]);
                     
                     $onchange = "setChatStatus('" . $url . "')";
-                    
-                  ?>
-                  <input onchange="<?= $onchange ?>" id="togglechat" type="checkbox" class="pull-right" <?= $isChecked ?> />
-                </label>                
-              </div><!-- /.form-group -->
+                    ?>
+                    <input onchange="<?= $onchange ?>" id="togglechat" type="checkbox" class="pull-right" <?= $isChecked ?> />
+                    </label>                
+                </div><!-- /.form-group -->
 
-              <div class="form-group">
-                <label class="control-sidebar-subheading">
-                  Turn off notifications
-                  <input type="checkbox" class="pull-right" />
-                </label>                
-              </div><!-- /.form-group -->
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                    Turn off notifications
+                    <input type="checkbox" class="pull-right" />
+                    </label>                
+                </div><!-- /.form-group -->
 
               <div class="form-group">
                 <label class="control-sidebar-subheading">

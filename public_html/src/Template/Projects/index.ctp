@@ -16,14 +16,14 @@
     <table id='projects-table' cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('name') ?></th>
-            <th><?= $this->Paginator->sort('date_created') ?></th>
-            <th><?= $this->Paginator->sort('project_status_id') ?></th>
-            <th><?= $this->Paginator->sort('max_hours') ?></th>
-            <th><?= $this->Paginator->sort('quoted_hours') ?></th>
-            <th><?= $this->Paginator->sort('due_date') ?></th>
-            <th><?= $this->Paginator->sort('quote_id') ?></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Date Created</th>
+            <th>Project Status</th>
+            <th>Max Hours</th>
+            <th>Quoted Hours</th>
+            <th>Due Date</th>
+            <th>Quote</th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
     </thead>
@@ -38,7 +38,7 @@
             </td>
             <td><?= $this->Number->format($project->max_hours) ?></td>
             <td><?= $this->Number->format($project->quoted_hours) ?></td>
-            <td><?= h($project->due_date) ?></td>
+            <td><?= h($project->getTimeRemaining()) ?></td>
             <td>
                 <?= $project->has('quote') ? $this->Html->link($project->quote->name, ['controller' => 'Quotes', 'action' => 'view', $project->quote->id]) : '' ?>
             </td>

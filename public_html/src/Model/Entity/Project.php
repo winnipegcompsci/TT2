@@ -28,4 +28,18 @@ class Project extends Entity
         'project_tasks' => true,
         'tickets' => true,
     ];
+    
+    public function getTimeRemaining() {
+        $now = strtotime('now');
+        $dueDate = strtotime($this->due_date);
+        
+        $seconds = $dueDate - $now;
+        
+        $numdays = floor($seconds / 86400);
+        $numhours = floor(($seconds % 86400) / 3600);
+        $numminutes = floor((($seconds % 86400) % 3600) / 60);
+        $numseconds = (($seconds % 86400) % 3600) % 60;
+        
+        return "$numdays days, $numhours hours, $numminutes minutes";
+    }
 }
