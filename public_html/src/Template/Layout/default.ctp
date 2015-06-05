@@ -42,9 +42,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
     <?= $this->Html->css('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.print.css') ?>
 
     <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-
-  
+    <?= $this->fetch('css') ?> 
   </head>
     
   
@@ -212,7 +210,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 <i class="fa fa-envelope text-aqua"></i> <span>Messages</span></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'inbox']); ?>"><i class="fa fa-circle-o"></i> Read Messages</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'inbox']); ?>"><i class="fa fa-circle-o"></i> Inbox </a></li>
                 <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-aqua"></i> New Message</a></li>
               </ul>
             </li>

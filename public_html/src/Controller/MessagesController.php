@@ -25,6 +25,10 @@ class MessagesController extends AppController
         $this->set('_serialize', ['messages']);
     }
 
+    public function inbox() {
+        
+    }
+    
     /**
      * View method
      *
