@@ -1,4 +1,4 @@
-<div class="actions columns large-2 medium-3">
+<div class="actions columns col-lg-2 col-md-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
         <li><?= $this->Form->postLink(
@@ -36,12 +36,11 @@
         <li><?= $this->Html->link(__('New Ticket History'), ['controller' => 'TicketHistory', 'action' => 'add']) ?></li>
     </ul>
 </div>
-<div class="tickets form large-10 medium-9 columns">
+<div class="tickets form col-lg-10 col-md-9 columns">
     <?= $this->Form->create($ticket) ?>
     <fieldset>
         <legend><?= __('Edit Ticket') ?></legend>
         <?php
-            echo $this->Form->input('date_created');
             echo $this->Form->input('customer_id', ['options' => $customers]);
             echo $this->Form->input('contact_id', ['options' => $contacts]);
             echo $this->Form->input('ticket_type_id', ['options' => $ticketTypes]);

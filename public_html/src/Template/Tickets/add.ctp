@@ -1,4 +1,4 @@
-<div class="actions columns large-2 medium-3">
+<div class="actions columns col-lg-2 col-md-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
         <li><?= $this->Html->link(__('List Tickets'), ['action' => 'index']) ?></li>
@@ -30,29 +30,44 @@
         <li><?= $this->Html->link(__('New Ticket History'), ['controller' => 'TicketHistory', 'action' => 'add']) ?></li>
     </ul>
 </div>
-<div class="tickets form large-10 medium-9 columns">
+<div class="tickets form col-lg-10 col-md-9 columns">
     <?= $this->Form->create($ticket) ?>
     <fieldset>
-        <legend><?= __('Add Ticket') ?></legend>
+        <legend><?= __('Create Ticket') ?></legend>
+        <div class="form-group">
         <?php
-            echo $this->Form->input('date_created');
+            $now = new DateTime(strtotime('now'));
+                    
             echo $this->Form->input('customer_id', ['options' => $customers]);
             echo $this->Form->input('contact_id', ['options' => $contacts]);
             echo $this->Form->input('ticket_type_id', ['options' => $ticketTypes]);
             echo $this->Form->input('service_type_id', ['options' => $serviceTypes]);
             echo $this->Form->input('ticket_priority_id', ['options' => $ticketPriorities]);
             echo $this->Form->input('problem_description');
-            echo $this->Form->input('solution');
+            
+            // echo $this->Form->input('solution');
+            echo $this->Form->hidden('solution', ['value' => '']);
+            
             echo $this->Form->input('ticket_status_id', ['options' => $ticketStatuses]);
-            echo $this->Form->input('user_id', ['options' => $users]);
-            echo $this->Form->input('dis');
+            
+            // echo $this->Form->input('user_id', ['options' => $users]);
+            echo $this->Form->input('user_id', ['options' => $users, 'value' => $logged_in_id]);
+            
+            // echo $this->Form->input('dis');
+            echo $this->Form->hidden('dis', ['type' => 'time', 'selected' => date('Y-m-d H:i:s')]);
+            echo $this->Form->hidden('date_created', ['type' => 'time', 'selected' => date('Y-m-d H:i:s')]);
+            
             echo $this->Form->input('customer_site_id', ['options' => $customerSites]);
             echo $this->Form->input('project_id', ['options' => $projects]);
-            echo $this->Form->input('completion');
+            
+            // echo $this->Form->input('completion');
+            echo $this->Form->hidden('completion', ['value' => '0']);
+            
             echo $this->Form->input('billing_status_id', ['options' => $billingStatuses]);
-            echo $this->Form->input('quote_id', ['options' => $quotes, 'empty' => true]);
+            echo $this->Form->hidden('quote_id', ['value' => '0']);
         ?>
+        </div>    
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Create Ticket')) ?>
     <?= $this->Form->end() ?>
 </div>

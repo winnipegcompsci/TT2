@@ -43,10 +43,20 @@ class User extends Entity
         'tickets' => true,
     ];
     
+        
     protected function _setPassword($password)
     {
         return (new DefaultPasswordHasher)->hash($password);
     }
+    
+    public function getMessages() {
+        $messages = TableRegistry::get('Messages')->find('all', [
+            'conditions' => ['to_user_id' => $this->id]
+        ]);
+        
+        return $messages;
+    }
+    
     
     public function getFullName() {
         return $this->first_name . " " . $this->last_name;

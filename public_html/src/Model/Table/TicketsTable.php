@@ -100,20 +100,11 @@ class TicketsTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
-        $validator
-            ->add('date_created', 'valid', ['rule' => 'datetime'])
-            ->requirePresence('date_created', 'create')
-            ->notEmpty('date_created');
-            
+                        
         $validator
             ->requirePresence('problem_description', 'create')
             ->notEmpty('problem_description');
-            
-        $validator
-            ->requirePresence('solution', 'create')
-            ->notEmpty('solution');
-            
+                        
         $validator
             ->add('dis', 'valid', ['rule' => 'datetime'])
             ->requirePresence('dis', 'create')

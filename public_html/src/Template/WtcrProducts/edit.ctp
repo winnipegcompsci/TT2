@@ -29,6 +29,7 @@
             echo $this->Form->input('lastupdated');
             echo $this->Form->input('marketplace_data');
             echo $this->Form->input('pictures');
+            echo $this->Form->input('price_paid');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

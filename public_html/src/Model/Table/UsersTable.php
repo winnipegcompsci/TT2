@@ -31,7 +31,7 @@ class UsersTable extends Table
     public function initialize(array $config)
     {
         $this->table('users');
-        $this->displayField('id');
+        $this->displayField('first_name');
         $this->primaryKey('id');
         $this->belongsTo('UserRoles', [
             'foreignKey' => 'user_role_id',
@@ -58,6 +58,12 @@ class UsersTable extends Table
         ]);
         $this->hasMany('Tickets', [
             'foreignKey' => 'user_id'
+        ]);
+        $this->hasMany('Messages', [
+            'foreignKey' => 'from_user_id',
+        ]);
+        $this->hasMany('Messages', [
+            'foreignKey' => 'to_user_id',
         ]);
     }
 

@@ -26,18 +26,16 @@
             <h6 class="subheader"><?= __('Quote') ?></h6>
             <p><?= $ticket->has('quote') ? $this->Html->link($ticket->quote->name, ['controller' => 'Quotes', 'action' => 'view', $ticket->quote->id]) : '' ?></p>
         </div>
-
-        <div class="col-lg-9 col-md-6 columns"> <!-- Ticket Details -->
-            <div class="alert alert-info">
-                <h4><i class="icon fa fa-info"></i><?= __('Problem Description') ?></h4>
-                <p>
+       
+        <div class="columns col-lg-9 col-md-6">
+            <div class="box box-warning box-solid ">
+                <div class="box-header with-border"><i class="icon fa fa-info"></i><?= __('Problem Description') ?></div>
+                <div class="box-body">
                     <?= $this->Text->autoParagraph(h($ticket->problem_description)) ?>
-                    <a class="btn btn-primary btn-xs pull-right">...</a>
-                </p>
-                <br />
+                </div>
             </div>
         </div>
-        
+                
         <div class="columns col-lg-9 col-md-6">
             <div class="progress">
                     <?php
@@ -55,19 +53,18 @@
                         <?= $this->Number->format($ticket->completion) ?>% Complete
                     </div>
             </div>
-            <div class="alert alert-success">
-                <h4><i class="icon fa fa-check"></i><?= __('Problem Solution') ?></h4>
-                <p>
+            
+            <div class="box box-success box-solid ">
+                <div class="box-header with-border"><i class="icon fa fa-check"></i><?= __('Problem Solution') ?></div>
+                <div class="box-body">
                     <?= $this->Text->autoParagraph(h($ticket->solution)) ?>
-                    <a class="btn btn-primary btn-xs pull-right">...</a>
-                    <br />
-                </p>
+                </div>
             </div>
         </div>
         
         <div class="timeline">
             <div class="column col-lg-9 pull-right">
-                <h4 class="subheader text-center"><?= __('Ticket Events') ?></h4>
+                <h3 class="subheader text-center"><?= __('Ticket Events') ?></h3>
                 <?php if (!empty($ticket->getEvents())): ?>
                     <ul class="timeline">
 

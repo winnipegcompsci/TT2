@@ -19,7 +19,8 @@ class TicketsController extends AppController
     public function index()
     {        
         $this->paginate = [
-            'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'BillingStatuses', 'Quotes']
+            // 'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users', 'CustomerSites', 'BillingStatuses', 'Quotes']
+            'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users','CustomerSites', 'BillingStatuses', 'Quotes'],
         ];
         $this->set('tickets', $this->paginate($this->Tickets));
         $this->set('_serialize', ['tickets']);
@@ -49,13 +50,19 @@ class TicketsController extends AppController
     public function add()
     {
         $ticket = $this->Tickets->newEntity();
+        
         if ($this->request->is('post')) {
             $ticket = $this->Tickets->patchEntity($ticket, $this->request->data);
+
+            $ticket->dis = date("Y-m-d H:i:s");
+            $ticket->date_created = date("Y-m-d H:i:s");
+            
+            
             if ($this->Tickets->save($ticket)) {
                 $this->Flash->success(__('The ticket has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                echo "<pre>" . print_r($this->Tickets, true) . "</pre>";
+                echo "<pre>" . print_r($ticket, true) . "</pre>";
                 $this->Flash->error(__('The ticket could not be saved. Please, try again.'));
             }
         }
@@ -88,8 +95,10 @@ class TicketsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ticket = $this->Tickets->patchEntity($ticket, $this->request->data);
+            $ticket->create_date = date("Y-m-d H:i:s");
+            
             if ($this->Tickets->save($ticket)) {
-                $this->Flash->success(__('The ticket has been saved.'));
+                $this->Flash->success(__('The ticket has been updated.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The ticket could not be edited. Please, try again.'));

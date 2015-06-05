@@ -56,4 +56,82 @@ class Ticket extends Entity
         
         return $events;
     }
+    
+    public function  getEventCount() {
+        $events = TableRegistry::get('TicketEvents')->find('all', [
+            'conditions' =>['ticket_id' => $this->id]
+        ])->toArray()->count();
+        
+        return $events;
+    }
+    
+    public function getMinutesUsed() {
+        $min = 0;
+        
+        $events = TableRegistry::get('TicketEvents')->find('all', [
+            'conditions' => ['ticket_id' => $this->id],
+            'contain' => ['Users']
+        ]);
+        
+        foreach($events as $event) { $min += $event->time_taken;}
+
+        return $min;
+    }
+    
+    public function getID() {
+        
+        return "#" . str_pad($this->id, 4, "0", STR_PAD_LEFT ); 
+        
+    }
+    
+    public function getProjectName() {
+        
+        if($this->project_id == 0) {
+            return "N/A";
+        } else {
+            $project = TableRegistry::get('Projects')->find('all', [
+                'conditions' => ['id' => $this->project_id]
+            ])->first();
+                        
+            return $project->name;
+        }
+    }
+    
+    public function getSiteName() {
+        $site = TableRegistry::get('CustomerSites')->find('all', [
+            'conditions' => ['id' => $this->customer_site_id],
+        ])->first();
+        
+        return $site->site_name;
+    }
+    
+    public function getServiceTypeName() {
+        $servicetype = TableRegistry::get('ServiceTypes')->find('all',  [
+            'conditions' => ['id' => $this->service_type_id]
+        ])->first();
+        
+        return $servicetype->name;
+    }
+    
+    public function getTicketTypeName() {
+        $ticketype = TableRegistry::get('TicketTypes')->find('all', [
+            'conditions' => ['id' => $this->ticket_type_id]
+        ])->first();
+        
+        return $ticketype->name;
+    }
+    
+    public function getProblemTypeName() {
+        $problemtype = TableRegistry::get('ProblemTypes')->find('all', [
+            'conditions' => ['id' => $this->problem_type_id]
+        ]);
+    }
+    
+    public function getStatus() {
+        $status = TableRegistry::get('TicketStatuses')->find('all', [
+            'conditions' => ['id' => $this->ticket_status_id]
+        ])->first();
+        
+        return $status->name;
+    }
 }

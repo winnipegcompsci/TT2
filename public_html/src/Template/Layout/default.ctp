@@ -9,7 +9,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
 <html>
   <head>
     <meta charset="UTF-8">
-    <title> TTv2.0 || <?= ucwords($this->request->params['action'] != 'display' ? $this->request->params['action'] : Inflector::humanize($this->request->pass[0]))  ?> </title>
+    <title> TT2 || <?= ucwords($this->request->params['action'] != 'display' ? $this->request->params['action'] : Inflector::humanize($this->request->pass[0]))  ?> </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Font Awesome Icons -->
@@ -26,6 +26,9 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   
+    <!-- Morris Charts -->
+    <?= $this->Html->css('plugins/morris/morris.css') ?>
+  
     <!-- Bootstrap 3.3.4 -->
     <?= $this->Html->css('bootstrap.min.css') ?>
     
@@ -35,6 +38,8 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
     <!-- AdminLTE Skins. -->
     <?=  $this->Html->css('skins/skin-blue.css') ?>
 
+    <?= $this->Html->css('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.min.css') ?>
+    <?= $this->Html->css('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.print.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -67,33 +72,9 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
-              <li class="dropdown messages-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-envelope-o"></i>
-                  <span class="label label-success">4</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 4 messages</li>
-                  <li>
-                    <!-- inner menu: contains the actual data -->
-                    <ul class="menu">
-                      <li><!-- start message -->
-                        <a href="#">
-                          <div class="pull-left">
-                            <img src="<?= $this->Url->build('/img/users/avatar04.png'); ?>" class="img-circle" alt="User Image"/>
-                          </div>
-                          <h4>
-                            Management Team
-                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                          </h4>
-                          <p>Setup Projects!</p>
-                        </a>
-                      </li><!-- end message -->
-                    </ul>
-                  </li>
-                  <li class="footer"><a href="#">See All Messages</a></li>
-                </ul>
-              </li>
+              <?= 
+                $this->element('message_details_header', ['logged_in_id' => $logged_in_id]); 
+              ?>
               <!-- Notifications: style can be found in dropdown.less -->
               <?= 
                 $this->element('notification_details_header');
@@ -207,7 +188,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Projects</a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'add']); ?>"><i class="fa fa-circle-o"></i> Create Project</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Projects', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-aqua"></i> Create Project</a></li>
               </ul>
             </li>
             
@@ -217,9 +198,26 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Tickets</a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'add']); ?>"><i class="fa fa-circle-o"></i> Create Ticket</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Tickets', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-aqua"></i> Create Ticket</a></li>
               </ul>
             </li>
+            <li>
+                <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'calendar']); ?>">
+                    <i class="fa fa-calendar text-aqua"></i> <span>Calendar</span> 
+                </a>
+            </li>    
+            
+            <li class="treeview">
+              <a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'index']); ?>">
+                <i class="fa fa-envelope text-aqua"></i> <span>Messages</span></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'inbox']); ?>"><i class="fa fa-circle-o"></i> Read Messages</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-aqua"></i> New Message</a></li>
+              </ul>
+            </li>
+            
+            
             
             <li>
               <a href="<?= $this->Url->build(['controller' => 'Customers', 'action' => 'index']); ?>">
@@ -237,7 +235,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'asterisk_calls']); ?>">
                 <i class="fa fa-asterisk text-aqua"></i> <span>Asterisk Call Logs</span> 
               </a>
-            </li>
+            </li>          
             
             <li>
               <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']); ?>">
@@ -269,7 +267,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Orders</a></li>
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Find Order</a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'enigma_dashboard']); ?>"><i class="fa fa-circle-o"></i> Create New Order</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'enigma_dashboard']); ?>"><i class="fa fa-circle-o text-aqua"></i> Create New Order</a></li>
               </ul>
             </li>
              <li>
@@ -287,7 +285,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               </a>
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Products</a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'enigma_dashboard']); ?>"><i class="fa fa-circle-o"></i> Create Product</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'enigma_dashboard']); ?>"><i class="fa fa-circle-o text-aqua"></i> Create Product</a></li>
               </ul>
             </li>
             <li>
@@ -296,7 +294,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               </a>
               <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>New Vendor Products</span></a></li>
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Vendors</a></li>
+                <li><a href="../../index.html"><i class="fa fa-circle-o text-aqua"></i> View Vendors</a></li>
                 <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Find Vendor Product</a></li>
               </ul>
             </li>
@@ -306,6 +304,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               </a>
               <ul class="treeview-menu">
                 <li><a href="../../index.html"><i class="fa fa-circle-o text-aqua"></i> Sales</a></li>
+                <li><a href="../../index.html"><i class="fa fa-circle-o text-green"></i> P.O.S </a></li>
                 <li><a href="../../index2.html"><i class="fa fa-circle-o text-yellow"></i></i> Listings</a></li>
               </ul>
             </li>
@@ -337,8 +336,8 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
         <section class="content-header">
           <h1>
             <a href="<?= $this->Url->build(['Controller' => $this->name, 'action' => 'index']) ?>">
-            <small>back to</small>
-            <?= $this->name ?>
+            <small>go back to</small>
+            <span style="font-size:75%"><?= $this->name ?></span>
             <small>for enigma networks...</small>
             </a>
           </h1>
@@ -359,7 +358,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
 
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 2.0
+          <b>TT Version</b> 2.0
         </div>
         <strong>Copyright &copy; 2015 <a href="http://www.enigmait.ca">Enigma Networks</a>.</strong> All rights reserved.
       </footer>
@@ -538,11 +537,20 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
     <!-- SlimScroll -->
     <?= $this->Html->script('plugins/slimScroll/jquery.slimscroll.min.js'); ?>
     
+    <!-- Morris Charts -->
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js'); ?>
+    <?= $this->Html->script('plugins/morris/morris.js'); ?>
+    
     <!-- FastClick --> 
     <?= $this->Html->script('plugins/fastclick/fastclick.min.js'); ?>
     
+    <!-- DataTables -->
     <?= $this->Html->script('//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js'); ?>
-    
+
+    <!-- Full Calendar -->
+    <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.min.js'); ?>
+
     <!-- Theme JS -->
     <?= $this->Html->script('app.min.js'); ?>
     

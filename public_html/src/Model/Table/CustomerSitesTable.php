@@ -25,7 +25,7 @@ class CustomerSitesTable extends Table
     public function initialize(array $config)
     {
         $this->table('customer_sites');
-        $this->displayField('id');
+        $this->displayField('site_name');
         $this->primaryKey('id');
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',

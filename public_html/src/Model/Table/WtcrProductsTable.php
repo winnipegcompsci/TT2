@@ -86,6 +86,10 @@ class WtcrProductsTable extends Table
             
         $validator
             ->allowEmpty('pictures');
+            
+        $validator
+            ->add('price_paid', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('price_paid');
 
         return $validator;
     }

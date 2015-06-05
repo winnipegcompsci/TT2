@@ -31,7 +31,7 @@
     <?php foreach ($projects as $project): ?>
         <tr>
             <td><?= $this->Number->format($project->id) ?></td>
-            <td><?= ucwords($project->name) ?></td>
+            <td><?= $this->Html->link(__(ucwords($project->name) ), ['action' => 'view', $project->id]) ?></td>
             <td><?= h($project->date_created) ?></td>
             <td>
                 <?= $project->has('project_status') ? $this->Html->link($project->project_status->name, ['controller' => 'ProjectStatuses', 'action' => 'view', $project->project_status->id]) : '' ?>
@@ -43,7 +43,6 @@
                 <?= $project->has('quote') ? $this->Html->link($project->quote->name, ['controller' => 'Quotes', 'action' => 'view', $project->quote->id]) : '' ?>
             </td>
             <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $project->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $project->id]) ?>
                 <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $project->id], ['confirm' => __('Are you sure you want to delete # {0}?', $project->id)]) ?>
             </td>
@@ -52,14 +51,6 @@
     <?php endforeach; ?>
     </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
 </div>
 
     <?php 

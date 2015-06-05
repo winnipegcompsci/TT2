@@ -1,4 +1,4 @@
-<div class="actions columns large-2 medium-3">
+<div class="actions columns col-lg-2 col-md-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
         <li><?= $this->Html->link(__('New Message'), ['action' => 'add']) ?></li>
@@ -6,12 +6,13 @@
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </div>
-<div class="messages index large-10 medium-9 columns">
+<div class="messages index col-lg-10 col-md-9 columns">
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
             <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('user_id') ?></th>
+            <th><?= $this->Paginator->sort('from_user_id') ?></th>
+            <th><?= $this->Paginator->sort('to_user_id') ?></th>
             <th><?= $this->Paginator->sort('timestamp') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
@@ -20,9 +21,8 @@
     <?php foreach ($messages as $message): ?>
         <tr>
             <td><?= $this->Number->format($message->id) ?></td>
-            <td>
-                <?= $message->has('user') ? $this->Html->link($message->user->id, ['controller' => 'Users', 'action' => 'view', $message->user->id]) : '' ?>
-            </td>
+            <td><?= $this->Number->format($message->from_user_id) ?></td>
+            <td><?= $this->Number->format($message->to_user_id) ?></td>
             <td><?= h($message->timestamp) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $message->id]) ?>

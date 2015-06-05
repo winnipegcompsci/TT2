@@ -51,12 +51,23 @@ class AppController extends Controller
             ]
         ]);
         
+        $numTickets = 0;
+        foreach(TableRegistry::get('Tickets')->find('all', ['conditions' => ['ticket_status_id <>' => '2'] ]) as $ticket) {
+            if($ticket->ticket_status_id != 2) {
+                $numTickets++;
+            } else {
+                echo "FALSE";
+            }
+        }
+        
         $this->set('logged_in_id', $this->Auth->user('id'));
         $this->set('num_open_tickets', TableRegistry::get('Tickets')->find('all', [
-            'conditions' => ['ticket_status_id !=' => '2']
+            'conditions' => ['ticket_status_id <>' => '2']
         ])->count());
+        
+
         $this->set('num_open_projects', TableRegistry::get('Projects')->find('all', [
-            'conditions' => ['project_status_id =' => '0']
+            'conditions' => ['project_status_id' => '0']
         ])->count());
         
     }

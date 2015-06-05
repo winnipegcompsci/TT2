@@ -1,5 +1,5 @@
 <?php 
-use Cake\ORM\TableRegistry;
+
 ?>
 <div class="actions columns col-lg-2 col-md-3">
     <h3><?= __('Actions') ?></h3>
@@ -19,36 +19,41 @@ use Cake\ORM\TableRegistry;
     </ul>
 </div>
 <div class="projects view col-lg-10 col-md-9 columns">
-    <h2><?= h($project->name) ?></h2>
-    <div class="row">
-        <div class="col-lg-5 columns strings">
-            <h6 class="subheader"><?= __('Project Status') ?></h6>
-            <p><?= $project->has('project_status') ? $this->Html->link($project->project_status->name, ['controller' => 'ProjectStatuses', 'action' => 'view', $project->project_status->id]) : '' ?></p>
-            <h6 class="subheader"><?= __('Quote') ?></h6>
-            <p><?= $project->has('quote') ? $this->Html->link($project->quote->name, ['controller' => 'Quotes', 'action' => 'view', $project->quote->id]) : '' ?></p>
-        </div>
-        <div class="col-lg-2 columns numbers end">
-            <h6 class="subheader"><?= __('Id') ?></h6>
-            <p><?= $this->Number->format($project->id) ?></p>
-            <h6 class="subheader"><?= __('Max Hours') ?></h6>
-            <p><?= $this->Number->format($project->max_hours) ?></p>
-            <h6 class="subheader"><?= __('Quoted Hours') ?></h6>
-            <p><?= $this->Number->format($project->quoted_hours) ?></p>
-        </div>
-        <div class="col-lg-2 columns dates end">
-            <h6 class="subheader"><?= __('Date Created') ?></h6>
-            <p><?= h($project->date_created) ?></p>
-            <h6 class="subheader"><?= __('Due Date') ?></h6>
-            <p><?= h($project->due_date) ?></p>
-        </div>
-    </div>
-    <div class="row texts">
-        <div class="columns col-lg-9">
-            <h6 class="subheader"><?= __('Description') ?></h6>
-            <?= $this->Text->autoParagraph(h($project->description)) ?>
+    <div class="box box-primary box-solid with-border">
+        <div class="box-header"> <h3><?= h($project->name) ?></h3></div>
+        
+        <div class="box-body">
+            <div class="col-lg-5 columns strings">
+                <h6 class="subheader"><?= __('Project Status') ?></h6>
+                <p><?= $project->has('project_status') ? $this->Html->link($project->project_status->name, ['controller' => 'ProjectStatuses', 'action' => 'view', $project->project_status->id]) : '' ?></p>
+                <h6 class="subheader"><?= __('Quote') ?></h6>
+                <p><?= $project->has('quote') ? $this->Html->link($project->quote->name, ['controller' => 'Quotes', 'action' => 'view', $project->quote->id]) : '' ?></p>
+            </div>
+            <div class="col-lg-2 columns numbers end">
+                <h6 class="subheader"><?= __('Id') ?></h6>
+                <p><?= $this->Number->format($project->id) ?></p>
+                <h6 class="subheader"><?= __('Max Hours') ?></h6>
+                <p><?= $this->Number->format($project->max_hours) ?></p>
+                <h6 class="subheader"><?= __('Quoted Hours') ?></h6>
+                <p><?= $this->Number->format($project->quoted_hours) ?></p>
+            </div>
+            <div class="col-lg-2 columns dates end">
+                <h6 class="subheader"><?= __('Date Created') ?></h6>
+                <p><?= h($project->date_created) ?></p>
+                <h6 class="subheader"><?= __('Due Date') ?></h6>
+                <p><?= h($project->due_date) ?></p>
+            </div>
         </div>
     </div>
-    
+        
+    <div class="box box-primary box-solid">
+        <div class="box-header with-border"> Description</div>
+        
+        <div class="box-body">
+            <?= $project->description ?>
+        </div>
+    </div>    
+        
     <div class="row">
         <div class="box box-primary">
             <div class="box-header">
@@ -59,7 +64,7 @@ use Cake\ORM\TableRegistry;
                 <ul class="todo-list">
                 <?php foreach ($project->project_tasks as $projectTasks): 
                     if($projectTasks->done) {
-                        $liClass = "done";
+                        $liClass = "done bg-green";
                         $checked = "checked";
                     } else {
                         $liClass = "";
@@ -84,9 +89,9 @@ use Cake\ORM\TableRegistry;
                       <!-- todo text -->
                       <span class="text"><?= $projectTasks->title ?></span>
                       <span class="text">(Assigned to <?= $projectTasks->getAssignedUserName() ?>)</span>
-                      <?php if($projectTasks->done) { ?>
+                      <?php if($project->done) { ?>
                       <!-- Emphasis label -->
-                      <small class="label label-success pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>
+                      <small class="label label-warning pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>
                       <?php } else { ?>
                       <small class="label label-danger pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>
                       <?php } ?>

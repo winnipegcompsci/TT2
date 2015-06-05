@@ -34,22 +34,24 @@
     <table id="tickets-table" cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('date_created') ?></th>
-            <th><?= $this->Paginator->sort('customer_id') ?></th>
-            <th><?= $this->Paginator->sort('contact_id') ?></th>
-            <th><?= $this->Paginator->sort('user_id', 'Assigned User') ?></th>
-            <th><?= $this->Paginator->sort('ticket_type_id') ?></th>
-            <th><?= $this->Paginator->sort('service_type_id') ?></th>
-            <th><?= $this->Paginator->sort('ticket_priority_id') ?></th>
-            <th><?= $this->Paginator->sort('completion') ?></th>
+            <th><?= __('ID') ?></th>
+            <th><?= __('Date Created') ?></th>
+            <th><?= __('Customer') ?></th>
+            <th><?= __('Contact') ?></th>
+            <th><?= __('Assigned User') ?></th>
+            <th><?= __('Type') ?></th>
+            <th><?= __('Service Type') ?></th>
+            <th><?= __('Ticket Priority') ?></th>
+            <th><?= __('Completion') ?></th>
+            <th><?= __('Billing Status') ?></th>
+            <th><?= __('Time Used') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
     </thead>
     <tbody>
     <?php foreach ($tickets as $ticket): ?>
         <tr>
-            <td><?= $this->Number->format($ticket->id) ?></td>
+            <td><?= $this->Html->link("Ticket #" . str_pad($ticket->id, 4, "0", STR_PAD_LEFT ), ['action' => 'view', $ticket->id]) ?></td>
             <td><?= h($ticket->date_created) ?></td>
             <td>
                 <?= $ticket->has('customer') ? $this->Html->link($ticket->customer->name, ['controller' => 'Customers', 'action' => 'view', $ticket->customer->id]) : '' ?>
@@ -74,12 +76,13 @@
                     <?php
                     $className = "progress-bar-info";
                     if($ticket->completion < 60) {
-                           $className = "progress-bar-warning";
-                        } else if ($ticket->completion < 30) {
-                            $className = "progress-bar-danger";
-                        } else if ($ticket->completion >= 60) {
-                            $className = "progress-bar-success";
-                        }
+                        $className = "progress-bar-warning";
+                    } 
+                    if($ticket->completion < 60 && $ticket->completion < 30) {
+                        $className = "progress-bar-danger";
+                    } else if ($ticket->completion >= 60) {
+                        $className = "progress-bar-success";
+                    }
                     ?>
                     <div class="progress-bar progress-bar-primary progress-bar-striped <?= $className ?>" role="progressbar" aria-valuenow="<?= $this->Number->format($ticket->completion) ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $this->Number->format($ticket->completion) ?>%">
                         <span class="sr-only"><?= $this->Number->format($ticket->completion) ?> Complete </span>
@@ -87,8 +90,27 @@
                     </div>
                 </div>
             </td>
+            <td>
+                <?php 
+                    $class = "text-yellow";
+                    if($ticket->billing_status->billing_status == "Open Ticket") {
+                        $class = "text-aqua";
+                    }
+                    if($ticket->billing_status->billing_status == "Overdue") {
+                        $class= "text-red";
+                    }
+                    if($ticket->billing_status->billing_status == "Paid") {
+                        $class="text-green";
+                    }
+                ?>
+                <span class="<?= $class ?>">
+                    <?= __($ticket->billing_status->billing_status); ?>
+                </span>
+            </td>
+            <td>
+                <?= $ticket->getMinutesUsed(); ?> min.
+            </td>
             <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $ticket->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $ticket->id]) ?>
                 <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $ticket->id], ['confirm' => __('Are you sure you want to delete # {0}?', $ticket->id)]) ?>
             </td>
@@ -97,14 +119,7 @@
     <?php endforeach; ?>
     </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
+
     
     <?php 
     $this->Html->scriptStart(['block' => true]);

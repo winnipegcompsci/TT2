@@ -15,7 +15,8 @@ class Message extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
+        'from_user_id' => true,
+        'to_user_id' => true,
         'timestamp' => true,
         'text' => true,
         'user' => true,

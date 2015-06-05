@@ -17,7 +17,8 @@
     <fieldset>
         <legend><?= __('Edit Message') ?></legend>
         <?php
-            echo $this->Form->input('user_id', ['options' => $users]);
+            echo $this->Form->input('from_user_id');
+            echo $this->Form->input('to_user_id');
             echo $this->Form->input('timestamp');
             echo $this->Form->input('text');
         ?>

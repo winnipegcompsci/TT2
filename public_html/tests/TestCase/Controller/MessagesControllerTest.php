@@ -36,16 +36,20 @@ class MessagesControllerTest extends IntegrationTestCase
         'app.projects',
         'app.project_statuses',
         'app.quotes',
+        'app.quote_types',
         'app.project_tasks',
         'app.billing_statuses',
         'app.ticket_events',
+        'app.ticket_event_types',
+        'app.billing_types',
+        'app.time_types',
         'app.ticket_history',
         'app.emails',
         'app.email_types',
         'app.phone_numbers',
+        'app.phone_types',
         'app.billing_plans',
         'app.billing_plan_lines',
-        'app.time_types',
         'app.customer_notes'
     ];
 

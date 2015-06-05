@@ -35,6 +35,8 @@
             <p><?= $this->Number->format($wtcrProduct->suggestedmarkup) ?></p>
             <h6 class="subheader"><?= __('Wtcrprice') ?></h6>
             <p><?= $this->Number->format($wtcrProduct->wtcrprice) ?></p>
+            <h6 class="subheader"><?= __('Price Paid') ?></h6>
+            <p><?= $this->Number->format($wtcrProduct->price_paid) ?></p>
         </div>
         <div class="col-lg-2 columns dates end">
             <h6 class="subheader"><?= __('Lastupdated') ?></h6>

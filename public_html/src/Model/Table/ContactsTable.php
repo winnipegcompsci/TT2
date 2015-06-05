@@ -28,7 +28,7 @@ class ContactsTable extends Table
     public function initialize(array $config)
     {
         $this->table('contacts');
-        $this->displayField('id');
+        $this->displayField('first_name');
         $this->primaryKey('id');
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',
