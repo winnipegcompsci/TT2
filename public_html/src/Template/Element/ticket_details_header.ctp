@@ -22,7 +22,7 @@ foreach($tickets as $ticket) {
 <!-- Tasks: style can be found in dropdown.less -->
 <li class="dropdown tasks-menu">
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-  <i class="fa fa-flag-o"></i>
+  <i class="fa fa-support"></i>
   <span class="label label-danger"><?= $numTickets ?></span>
 </a>
 
@@ -44,19 +44,19 @@ foreach($tickets as $ticket) {
         }
       ?>
       
-      <li><!-- Task item -->
-        <a href="<?php $this->Url->build(['Controller' => 'tickets', 'action' => 'view', $ticket->id]) ?>">
-          <h3>
-            <?= substr($ticket->problem_description, 0, 60) ?>
-            <small class="pull-right"><?= $ticket->completion?>%</small>
-          </h3>
-          <div class="progress xs">
-            <div class="progress-bar <?= $pclass ?>" style="width: <?= $ticket->completion ?>%" role="progressbar" aria-valuenow="<?= $ticket->completion ?>" aria-valuemin="0" aria-valuemax="100">
-              <span class="sr-only"><?= $ticket->completion ?>% Complete</span>
-            </div>
-          </div>
-        </a>
-      </li><!-- end task item -->
+          <li><!-- Task item -->
+            <a href="<?php $this->Url->build(['Controller' => 'tickets', 'action' => 'view', $ticket->id]) ?>">
+              <h3>
+                <?= substr($ticket->problem_description, 0, 60) ?>
+                <small class="pull-right"><?= $ticket->completion?>%</small>
+              </h3>
+              <div class="progress xs">
+                <div class="progress-bar <?= $pclass ?>" style="width: <?= $ticket->completion ?>%" role="progressbar" aria-valuenow="<?= $ticket->completion ?>" aria-valuemin="0" aria-valuemax="100">
+                  <span class="sr-only"><?= $ticket->completion ?>% Complete</span>
+                </div>
+              </div>
+            </a>
+          </li><!-- end task item -->
       <?php endforeach; ?>
     
     </ul>

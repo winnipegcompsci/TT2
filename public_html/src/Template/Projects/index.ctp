@@ -20,8 +20,11 @@
             <th>Name</th>
             <th>Date Created</th>
             <th>Project Status</th>
+            <th>Tasks Finished</th>
+            <th>Current Hours</th>
             <th>Max Hours</th>
             <th>Quoted Hours</th>
+
             <th>Due Date</th>
             <th>Quote</th>
             <th class="actions"><?= __('Actions') ?></th>
@@ -36,8 +39,13 @@
             <td>
                 <?= $project->has('project_status') ? $this->Html->link($project->project_status->name, ['controller' => 'ProjectStatuses', 'action' => 'view', $project->project_status->id]) : '' ?>
             </td>
-            <td><?= $this->Number->format($project->max_hours) ?></td>
-            <td><?= $this->Number->format($project->quoted_hours) ?></td>
+            <td>
+                <?= $project->getNumberOfTasksDone() . '/' . $project->getNumberOfTasks() ?>
+            </td>
+            <td><?= $project->getCurrentTime(); ?> hrs </td>
+            <td><?= $this->Number->format($project->max_hours) ?> hrs </td>
+            <td><?= $this->Number->format($project->quoted_hours) ?> hrs</td>
+
             <td><?= h($project->getTimeRemaining()) ?></td>
             <td>
                 <?= $project->has('quote') ? $this->Html->link($project->quote->name, ['controller' => 'Quotes', 'action' => 'view', $project->quote->id]) : '' ?>

@@ -3,8 +3,18 @@ use Cake\ORM\TableRegistry;
 
 $ticketstatuses = TableRegistry::get('TicketStatuses')->find('list')->toArray();
 
+$conditions = array();
+
+if(isset($_GET['ticket_status_id']) && $_GET['ticket_status_id'] != 0) {
+    $conditions[] = ['ticket_status_id' => $_GET['ticket_status_id']]; 
+}
+
+
+
+
 $tickets = TableRegistry::get('Tickets')->find('all', [
-     'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users','CustomerSites', 'BillingStatuses', 'Quotes'],
+    'contain' => ['Customers', 'Contacts', 'TicketTypes', 'ServiceTypes', 'TicketPriorities', 'TicketStatuses', 'Users','CustomerSites', 'BillingStatuses', 'Quotes'],
+    'conditions' => $conditions
 ]);
 
 ?>
@@ -17,22 +27,66 @@ $tickets = TableRegistry::get('Tickets')->find('all', [
                     
             <div class="box-body">
                 <div class="columns col-lg-3 col-md-4">
-                <?php 
-                    echo $this->Form->create('');
-                    echo $this->Form->label('Ticket Status');
-                    echo $this->Form->select('ticket_status', $ticketstatuses);
-                    echo $this->Form->input('date_from');
-                    echo $this->Form->input('date_to');
-                    echo $this->Form->input('group_by');
-                    echo $this->Form->submit('Get Report');
-                    echo $this->Form->end();
-                ?>
+                    <form class="form-horizontal" method="GET">
+                        <fieldset>
+
+                        <!-- Select Basic -->
+                        <div class="control-group">
+                          <label class="control-label" for="selectbasic">Select Ticket with Status of</label>
+                          <div class="controls">
+                            <select id="ticket_status_id" name="ticket_status_id" class="input-xlarge">
+                                <option value=0>All Kinds</option>
+                                <?php 
+                                    foreach($ticketstatuses as $key => $stat) { echo "<option value=$key> $stat </option>"; }
+                                ?>
+                            </select>
+                           </div>
+                           
+                          <label class="control-label" for="selectbasic">Show Tickets </label>
+                          <div class="controls">
+                            <select id="ticket_action" name="ticket_action" class="input-xlarge">
+                                <option value='1'>Created between the dates of </option>
+                                <option value='2'>Closed between the dates of </option>
+                                <option value='3'>With Ticket Events between the dates of </option>
+                            </select>
+                           </div>
+                           
+                           <div class='input-group date' id='startdate'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            
+                            <div class='input-group date' id='enddate'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            
+                            <label class="control-label" for="selectbasic">Group Tickets by </label>
+                            <div class="controls">
+                            <select id="groupby" name="groupby" class="input-xlarge">
+                                <option value='1'>Customer </option>
+                                <option value='2'>Site </option>
+                                <option value='3'>Project </option>
+                            </select>
+                           </div>
+                           
+                        </div>
+                          <br />
+                          <div class="controls">
+                            <button id="submit" name="submit" class="btn btn-success">Generate Report</button>
+                          </div>
+                        </fieldset>
+                    </form>
                 </div>
                 
                 <div class="columns col-lg-3 col-md-4">
                     <div class="box box-danger columns col-lg-3">
                         <div class="box-header with-border">
-                          <h3 class="box-title">Ticket Status</h3>
+                          <h3 class="box-title"># of Tickets by Ticket Status</h3>
                           <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -47,7 +101,7 @@ $tickets = TableRegistry::get('Tickets')->find('all', [
                 <div class="columns col-lg-3 col-md-4">
                     <div class="box box-danger columns col-lg-3">
                         <div class="box-header with-border">
-                          <h3 class="box-title">Projects</h3>
+                          <h3 class="box-title"># of Tickets By Project</h3>
                           <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -62,7 +116,7 @@ $tickets = TableRegistry::get('Tickets')->find('all', [
                 <div class="columns col-lg-3 col-md-4">
                     <div class="box box-danger columns col-lg-3">
                         <div class="box-header with-border">
-                          <h3 class="box-title">Service Types</h3>
+                          <h3 class="box-title"># of Tickets By Service Type</h3>
                           <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -87,7 +141,7 @@ $ticket_service_types = array();
 <div class="row">
     <div class="columns col-lg-8 col-md-7">
         <div class="box box-primary box-solid">
-            <div class="box-header with-border"> Report </div>
+            <div class="box-header with-border"> Ticket Report </div>
             
             <div class="box-body">
                 <table id="reports-table">
@@ -172,7 +226,7 @@ $ticket_service_types = array();
             <div class="box-body">
                 <div class="box box-danger columns col-lg-3">
                     <div class="box-header with-border">
-                      <h3 class="box-title">Project Minutes</h3>
+                      <h3 class="box-title">Minutes used for Customer Projects</h3>
                       <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>

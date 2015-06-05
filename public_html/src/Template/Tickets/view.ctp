@@ -1,8 +1,9 @@
 <div class="tickets view col-lg-12 col-md-12 columns">
-    <h2>Ticket #<?= h($ticket->id) ?></h2>
+
 
     <div class="row ticket-details">
         <div class="col-lg-3 col-md-6 columns strings">
+            <h2>Ticket #<?= h($ticket->id) ?></h2>
             <h6 class="subheader"><?= __('Customer') ?></h6>
             <p><?= $ticket->has('customer') ? $this->Html->link($ticket->customer->name, ['controller' => 'Customers', 'action' => 'view', $ticket->customer->id]) : '' ?></p>
             <h6 class="subheader"><?= __('Contact') ?></h6>
@@ -64,7 +65,7 @@
         
         <div class="timeline">
             <div class="column col-lg-9 pull-right">
-                <h3 class="subheader text-center"><?= __('Ticket Events') ?></h3>
+                <!-- <h3 class="subheader text-center"><?= __('Ticket Events') ?></h3> -->
                 <?php if (!empty($ticket->getEvents())): ?>
                     <ul class="timeline">
 
@@ -95,12 +96,40 @@
                             </div>
                         </div>
                     </li>
-                    <?php } // end foreach ?>
+                    <?php } // end foreach 
+                    if(isset($ticket->solution) && $ticket->solution != "") {
+                    ?>
+                        <li class="time-label">
+                            <span class="bg-red">
+                                <?= $ticket->dis ?>
+                            </span>
+                        </li>
+                         <!-- timeline item -->
+                        <li>
+                            <!-- timeline icon -->
+                            <i class="fa fa-check bg-green"></i> 
+                            <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?= $ticket->getMinutesUsed() . " minutes" ?></span>
+                               
+                                <h3 class="timeline-header"><a href="#"><?= $ticketEvent->user->getFullName() ?></a> ...</h3>
+
+                                <div class="timeline-body bg-green">
+                                    <?= $ticket->solution ?>
+                                </div>
+
+                                <div class='timeline-footer bg-green'>
+                                    <a class="btn btn-primary btn-xs">...</a>
+                                </div>
+                            </div>                         
+                        </li>
+                    <?php 
+                    }                   
+                    ?>
                     <!-- END timeline item -->
                     </ul>
-                    <?php endif; ?>
-                    </div>
-                </div> <!-- end timeline row --->
+                <?php endif; ?>
+            </div>
+        </div> <!-- end timeline row --->
     </div> <!-- end row -->
 </div>
 

@@ -59,6 +59,7 @@
             <div class="box-header">
                 <i class="ion ion-clipboard"></i>
                 <h3 class="box-title">Project Tasks</h3>
+                <span class="pull-right"><?= $project->getNumberOfTasksDone() . '/' . $project->getNumberOfTasks() ?> Tasks Completed</span>
             </div><!-- /.box-header -->
             <div class="box-body">
                 <ul class="todo-list">
@@ -88,7 +89,7 @@
                       <input onchange="callCakeFunction('<?= $changeStatusURL ?>')" type="checkbox" <?= $checked ?> value="" name=""/>
                       <!-- todo text -->
                       <span class="text"><?= $projectTasks->title ?></span>
-                      <span class="text">(Assigned to <?= $projectTasks->getAssignedUserName() ?>)</span>
+                      <span class="text-center">(Assigned to <?= $projectTasks->getAssignedUserName() ?>)</span>
                       <?php if($project->done) { ?>
                       <!-- Emphasis label -->
                       <small class="label label-warning pull-right"><i class="fa fa-clock-o"></i> DUE: <?= $projectTasks->deadline ?> </small>

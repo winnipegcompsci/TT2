@@ -6,6 +6,8 @@ use Cake\ORM\Entity;
 /**
  * Project Entity.
  */
+ use Cake\ORM\TableRegistry;
+ 
 class Project extends Entity
 {
 
@@ -41,5 +43,34 @@ class Project extends Entity
         $numseconds = (($seconds % 86400) % 3600) % 60;
         
         return "$numdays days, $numhours hours, $numminutes minutes";
+    }
+    
+    public function getNumberOfTasks() {
+        $numTasks = TableRegistry::get('ProjectTasks')->find('all', [
+            'conditions' => ['project_id' => $this->id]
+        ])->count();
+        
+        return $numTasks;
+    }
+    
+    public function getNumberOfTasksDone() {
+        $numTasks = TableRegistry::get('ProjectTasks')->find('all', [
+            'conditions' => ['project_id' => $this->id, 'done' => true]
+        ])->count();
+        
+        return $numTasks;
+    }
+    
+    public function getCurrentTime() {
+        $tickets = TableRegistry::get('Tickets')->find('all', [
+            'conditions' => ['project_id' => $this->id]
+        ]);
+        
+        $timeTaken = 0;
+        foreach($tickets as $ticket) {
+            $timeTaken += $ticket->getMinutesUsed();
+        }
+        
+        return $timeTaken / 60;
     }
 }

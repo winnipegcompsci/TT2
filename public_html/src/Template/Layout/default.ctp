@@ -275,8 +275,8 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 <i class="fa fa-barcode text-green"></i> <span>Inventory</span>
               </a>
               <ul class="treeview-menu">               
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Inventory</a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'enigma_dashboard']); ?>"><i class="fa fa-circle-o"></i> Find Item</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Inventory</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'find']); ?>"><i class="fa fa-circle-o"></i> Find Item</a></li>
               </ul>
             </li>
             <li>
@@ -284,8 +284,8 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 <i class="fa fa-desktop text-green"></i> <span>WTCR Products</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> View Products</a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'enigma_dashboard']); ?>"><i class="fa fa-circle-o text-aqua"></i> Create Product</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Wtcr_Products', 'action' => 'index']); ?>"><i class="fa fa-circle-o"></i> View Products</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Wtcr_Products', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-aqua"></i> Create Product</a></li>
               </ul>
             </li>
             <li>
@@ -293,9 +293,9 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 <i class="fa fa-inbox text-green"></i> <span>Vendors</span> <small class="label pull-right bg-blue">2</small></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>New Vendor Products</span></a></li>
-                <li><a href="../../index.html"><i class="fa fa-circle-o text-aqua"></i> View Vendors</a></li>
-                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Find Vendor Product</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Wtcr_Vendors', 'action' => 'index']); ?>"><i class="fa fa-circle-o text-aqua"></i> View Vendors</a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Wtcr_Vendor_Products', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-red"></i> <span>New Vendor Products</span></a></li>
+                <li><a href="<?= $this->Url->build(['controller' => 'Wtcr_Vendor_Products', 'action' => 'find']); ?>l"><i class="fa fa-circle-o"></i> Find Vendor Product</a></li>
               </ul>
             </li>
                         <li>
@@ -303,9 +303,9 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 <i class="fa fa-usd text-green"></i> <span>Marketplaces</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../../index.html"><i class="fa fa-circle-o text-aqua"></i> Sales</a></li>
-                <li><a href="../../index.html"><i class="fa fa-circle-o text-green"></i> P.O.S </a></li>
-                <li><a href="../../index2.html"><i class="fa fa-circle-o text-yellow"></i></i> Listings</a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> Sales</a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-green"></i> P.O.S </a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i></i> Listings</a></li>
               </ul>
             </li>
             <li>
@@ -313,8 +313,8 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
                 <i class="fa fa-bar-chart text-green"></i> <span>Reports</span>  <i class="fa fa-angle-left pull-right"></i></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Sales Report</a></li>
-                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Inventory Product</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Inventory Product</a></li>
               </ul>
             </li>
             <!--
