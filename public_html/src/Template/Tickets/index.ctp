@@ -124,8 +124,8 @@
     <?php 
     $this->Html->scriptStart(['block' => true]);
     echo "$(document).ready(function() {
-    $('#tickets-table').DataTable();
-} );";
+        $('#tickets-table').DataTable();
+    });";
     $this->Html->scriptEnd();
     ?>
 </div>

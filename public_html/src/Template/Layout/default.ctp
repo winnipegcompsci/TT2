@@ -9,7 +9,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
 <html>
   <head>
     <meta charset="UTF-8">
-    <title> TT2 || <?= ucwords($this->request->params['action'] != 'display' ? $this->request->params['action'] : Inflector::humanize($this->request->pass[0]))  ?> </title>
+    <title> TT2 || <?= $this->request->params['controller'] . '-' . ucwords($this->request->params['action'] != 'display' ? $this->request->params['action'] : Inflector::humanize($this->request->pass[0]))  ?> </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Font Awesome Icons -->
