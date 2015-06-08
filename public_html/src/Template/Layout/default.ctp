@@ -211,7 +211,7 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'inbox']); ?>"><i class="fa fa-circle-o"></i> Inbox </a></li>
-                <li><a href="<?= $this->Url->build(['controller' => 'Messages', 'action' => 'add']); ?>"><i class="fa fa-circle-o text-aqua"></i> New Message</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#sendMessageModal"><i class="fa fa-circle-o text-aqua"></i> New Message</a></li>
               </ul>
             </li>
             
@@ -526,6 +526,40 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
       <div class='control-sidebar-bg'></div>
     </div><!-- ./wrapper -->
     
+    <!-- Modal -->
+    <div id="sendMessageModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Send a Message</h4>
+                </div>
+                <div class="modal-body">
+                    <?php $message = TableRegistry::get('Messages')->newEntity(); ?>
+                    <?= $this->Form->create($message, [
+                        'url' => ['controller' => 'Messages', 'action' => 'sendModalMessage']
+                    ]) ?>
+                    <fieldset>
+                        <?php
+                            echo $this->Form->input('to_user_id', ['options' => $usersList]);
+                            echo $this->Form->input('text', [
+                                'class' => 'form-control input-lg',
+                                'placeholder' => 'Your message',
+                            ]); 
+                        ?>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <?= $this->Form->button(__('Send Message')) ?>
+                    <?= $this->Form->end() ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
 
     <!-- jQuery 2.1.4 -->
     <?= $this->Html->script('plugins/jQuery/jQuery-2.1.4.min.js'); ?>    
@@ -541,6 +575,9 @@ $logged_in = TableRegistry::get('Users')->findById($logged_in_id)->first();
     
     <!-- FastClick --> 
     <?= $this->Html->script('plugins/fastclick/fastclick.min.js'); ?>
+    
+    <!-- jQuery KNOB -->
+    <?= $this->Html->script('plugins/knob/jquery.knob.js'); ?>
     
     <!-- DataTables -->
     <?= $this->Html->script('//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js'); ?>

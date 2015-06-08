@@ -35,4 +35,22 @@ class ProjectTask extends Entity
             return "--Nobody--";
         }
     }
+    
+    public function getDeadline() {
+        return $this->deadline;
+    }
+    
+    public function getCountdown() {
+        $now = strtotime('now');
+        $dueDate = strtotime($this->deadline);
+        
+        $seconds = $dueDate - $now;
+        
+        $numdays = floor($seconds / 86400);
+        $numhours = floor(($seconds % 86400) / 3600);
+        $numminutes = floor((($seconds % 86400) % 3600) / 60);
+        $numseconds = (($seconds % 86400) % 3600) % 60;
+        
+        return "$numdays days, $numhours hours, $numminutes minutes";
+    }
 }

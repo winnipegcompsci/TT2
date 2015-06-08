@@ -60,15 +60,31 @@ class AppController extends Controller
             }
         }
         
+        // SET VARIABLES //
+        
+        
         $this->set('logged_in_id', $this->Auth->user('id'));
+        // Number open Tickets
         $this->set('num_open_tickets', TableRegistry::get('Tickets')->find('all', [
             'conditions' => ['ticket_status_id <>' => '2']
         ])->count());
         
-
+        // Number of Open Projects
         $this->set('num_open_projects', TableRegistry::get('Projects')->find('all', [
             'conditions' => ['project_status_id' => '0']
         ])->count());
+        
+        $this->set('num_customers_can_bill', TableRegistry::get('Tickets')->find('all', [
+            'conditions' => ['billing_status_id' => '2']
+        ])->count());
+        
+        $this->set('_ProjectTable', TableRegistry::get('Projects'));
+        $this->set('_TicketTable', TableRegistry::get('Tickets'));
+        
+        $this->set('usersList', TableRegistry::get('Users')->find('list', [
+            'condition' => ['disabled' => false]
+        ]));
+        
         
     }
         

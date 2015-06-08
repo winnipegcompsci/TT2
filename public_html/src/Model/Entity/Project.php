@@ -31,6 +31,13 @@ class Project extends Entity
         'tickets' => true,
     ];
     
+    public function getBootstrapClass() {
+        // Return Success iff Finished
+        // Return blue for primary
+        // Return Warning if running out of time or unfinished tasks.
+        // Return Danger if overdue.
+    }
+    
     public function getTimeRemaining() {
         $now = strtotime('now');
         $dueDate = strtotime($this->due_date);
@@ -61,6 +68,20 @@ class Project extends Entity
         return $numTasks;
     }
     
+    public function getUnfinishedTasks($limit = null) {
+        
+        if($limit == null) {
+            $limit = 5;
+        }
+        
+        $tasks = TableRegistry::get('ProjectTasks')->find('all', [
+            'conditions' => ['project_id' => $this->id, 'done' => false],
+            'limit' => $limit,
+        ]);
+
+        return $tasks;
+    }
+    
     public function getCurrentTime() {
         $tickets = TableRegistry::get('Tickets')->find('all', [
             'conditions' => ['project_id' => $this->id]
@@ -72,5 +93,9 @@ class Project extends Entity
         }
         
         return $timeTaken / 60;
+    }
+    
+    public function addTaskToProject() {
+        
     }
 }

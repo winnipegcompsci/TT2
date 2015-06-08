@@ -1,6 +1,6 @@
 <?php
 namespace App\Model\Entity;
-
+use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
 
 /**
@@ -21,4 +21,12 @@ class Message extends Entity
         'text' => true,
         'user' => true,
     ];
+    
+    public function getSenderName() {
+        $user = TableRegistry::get('Users')->find('all', [
+            'conditions' => ['id' => $this->from_user_id]
+        ])->first();
+        
+        return $user->getFullName();
+    }
 }

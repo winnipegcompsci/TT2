@@ -10,7 +10,6 @@ use App\Controller\AppController;
  */
 class MessagesController extends AppController
 {
-
     /**
      * Index method
      *
@@ -59,6 +58,7 @@ class MessagesController extends AppController
                 $this->Flash->success(__('The message has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
+                error_log("Could Not Save Message: " . print_r($message, TRUE) );
                 $this->Flash->error(__('The message could not be saved. Please, try again.'));
             }
         }
@@ -66,6 +66,32 @@ class MessagesController extends AppController
         $this->set(compact('message', 'users'));
         $this->set('_serialize', ['message']);
     }
+    
+    public function sendModalMessage()
+    {
+        $message = $this->Messages->newEntity();
+        if ($this->request->is('post')) {
+            $message = $this->Messages->patchEntity($message, $this->request->data);
+            
+            $message->from_user_id = $this->Auth->user('id');
+            $message->timestamp = date("Y-m-d H:i:s");
+            
+            if ($this->Messages->save($message)) {
+                $this->Flash->success(__('The message has been sent.'));
+                return $this->redirect($this->referer());
+            } else {
+                error_log("Could Not Save Message: " . print_r($message, TRUE) );
+                $this->Flash->error(__('The message could not be sent. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+        $users = $this->Messages->Users->find('list', ['limit' => 200]);
+        $this->set(compact('message', 'users'));
+        $this->set('_serialize', ['message']);
+        
+        return $this->redirect($this->referer());
+    }
+    
 
     /**
      * Edit method
@@ -93,6 +119,23 @@ class MessagesController extends AppController
         $this->set('_serialize', ['message']);
     }
 
+    
+    public function chat() {
+        $message = $this->Messages->newEntity();
+        
+        if ($this->request->is('post')) {
+            $message = $this->Messages->patchEntity($message, $this->request->data);
+            
+            $message->timestamp = date("Y-m-d H:i:s");
+            $message->to_user_id = -1;
+            $message->from_user_id = $this->Auth->user('id');
+            
+            $this->Messages->save($message); 
+        }
+        
+        return $this->redirect(['controller' => 'Pages', 'action' => 'enigma_dashboard']);
+    }
+    
     /**
      * Delete method
      *

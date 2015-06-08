@@ -69,7 +69,7 @@ class MessagesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['from_user_id'], 'Users'));
-        $rules->add($rules->existsIn(['to_user_id'], 'Users'));
+        // $rules->add($rules->existsIn(['to_user_id'], 'Users'));
         return $rules;
     }
 }

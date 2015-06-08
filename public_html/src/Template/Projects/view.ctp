@@ -1,5 +1,5 @@
 <?php 
-
+use Cake\ORM\TableRegistry;
 ?>
 <div class="actions columns col-lg-2 col-md-3">
     <h3><?= __('Actions') ?></h3>
@@ -108,7 +108,7 @@
           </ul>
         </div><!-- /.box-body -->
         <div class="box-footer clearfix no-border">
-          <button class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add Task</button>
+          <button class="btn btn-default pull-right" data-toggle="modal" data-target="#add_project_task"><i class="fa fa-plus"></i> Add Task</button>
         </div>
         </div><!-- /.box -->
     </div>
@@ -140,3 +140,43 @@ foreach ($project->project_tasks as $projectTask):  ?>
 <?php 
 endforeach;
 ?>
+
+<div id="add_project_task" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-info"></i> Add New Task</h4>
+      </div>
+      <div class="modal-body">
+        <?php         
+            $task = TableRegistry::get('ProjectTasks')->newEntity();
+            echo $this->Form->create($task, [
+                'url' => ['controller' => 'ProjectTasks', 'action' => 'add_task_to_project', $project->id]
+            ]);
+            
+            echo $this->Form->input('title', [
+                'label' => 'Task Title',
+                'class' => 'form-control input-lg',
+            ]);
+            echo $this->Form->input('body', [
+                'class' => 'form-control input-lg',
+                'placeholder' => 'Task Details',
+                'label' => 'Task Details'
+            ]);
+            echo $this->Form->input('deadline');
+             
+            ?>
+      </div>
+      <div class="modal-footer">
+            <?= $this->Form->button(__('Add New Task')); ?>
+            <?= $this->Form->end(); ?>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

@@ -63,6 +63,32 @@ class ProjectTasksController extends AppController
         $this->set(compact('projectTask', 'projects', 'users'));
         $this->set('_serialize', ['projectTask']);
     }
+    
+    
+    public function add_task_to_project($projectid = null)
+    {
+        $projectTask = $this->ProjectTasks->newEntity();
+        if ($this->request->is('post')) {
+            $projectTask = $this->ProjectTasks->patchEntity($projectTask, $this->request->data);
+            
+            $projectTask->project_id = $projectid;
+            
+            
+            if ($this->ProjectTasks->save($projectTask)) {
+                $this->Flash->success(__('The project task has been saved.'));
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('The project task could not be saved. Please, try again.'));
+                return $this->redirect($this->referer());
+            }
+        }
+        $projects = $this->ProjectTasks->Projects->find('list', ['limit' => 200]);
+        $users = $this->ProjectTasks->Users->find('list', ['limit' => 200]);
+        $this->set(compact('projectTask', 'projects', 'users'));
+        $this->set('_serialize', ['projectTask']);
+        
+        return $this->redirect($this->referer());
+    }
 
     /**
      * Edit method

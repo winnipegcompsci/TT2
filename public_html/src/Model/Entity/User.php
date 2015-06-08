@@ -73,4 +73,38 @@ class User extends Entity
             return FALSE;
         }
     }
+    
+    public function getTicketTimeBetween($startdate = null, $enddate = null) {
+        
+        $conditions = [
+            'user_id' => $this->id,
+        ];
+        
+        if(isset($startdate) && $startdate != "") {
+            $conditions['timestamp >='] = $startdate;
+        }
+        if(isset($enddate) && $enddate != "") {
+            $conditions['timestamp <='] = $enddate;
+        }
+        
+        
+        $events = TableRegistry::get('TicketEvents')->find('all', [
+           'conditions' => $conditions
+        ]);
+        
+        $totalTicketTime = 0;
+        foreach($events as $event) {
+            
+        }
+    }
+    
+    public function getProjectTimeBetween($startdate, $enddate) {
+        
+    }
+    
+    public function getTotalTimeBetween($startdate, $enddate) {
+        
+    }
+    
+    
 }

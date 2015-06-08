@@ -55,12 +55,15 @@
                     </div>
             </div>
             
+            <?php if(isset($ticket->solution) && $ticket->solution != "") : ?>
             <div class="box box-success box-solid ">
                 <div class="box-header with-border"><i class="icon fa fa-check"></i><?= __('Problem Solution') ?></div>
                 <div class="box-body">
                     <?= $this->Text->autoParagraph(h($ticket->solution)) ?>
                 </div>
             </div>
+            <?php endif; ?>
+            
         </div>
         
         <div class="timeline">

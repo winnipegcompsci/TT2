@@ -57,6 +57,14 @@ class Ticket extends Entity
         return $events;
     }
     
+    public function getCustomerName() {
+        $customer = TableRegistry::get('Customers')->find('all', [
+            'conditions' => [ 'id' => $this->customer_id ],
+        ])->first();
+        
+        return $customer->name;
+    }
+    
     public function  getEventCount() {
         $events = TableRegistry::get('TicketEvents')->find('all', [
             'conditions' =>['ticket_id' => $this->id]
@@ -133,5 +141,13 @@ class Ticket extends Entity
         ])->first();
         
         return $status->name;
+    }
+    
+    public function getPriority() {
+        $priority = TableRegistry::get('TicketPriorities')->find('all', [
+            'conditions' => ['id' => $this->ticket_priority_id]
+        ])->first();
+        
+        return $priority->name;
     }
 }
